@@ -40,7 +40,7 @@
     };
     signing = {
       key = "973C9963CA528797";
-      signByDefault = true;
+      signByDefault = false; # TODO
     };
 
   };
