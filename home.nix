@@ -82,10 +82,10 @@
       nvim-colorizer-lua
       nvim-lspconfig
       nvim-tree-lua
-      # nvim-treesitter
-      # nvim-treesitter-context
-      # nvim-treesitter-textobjects
-      # nvim-ts-rainbow
+      nvim-treesitter.withAllGrammars
+      nvim-treesitter-context
+      nvim-treesitter-textobjects
+      nvim-ts-rainbow
       nvim-web-devicons
       parinfer-rust
       plenary-nvim
@@ -107,7 +107,22 @@
     ];
 
     extraPackages = with pkgs; [
+      ripgrep
+      fd
+
+      nodePackages.bash-language-server
+      haskellPackages.haskell-language-server
+      haskellPackages.dhall-lsp-server
+      java-language-server
+      kotlin-language-server
       sumneko-lua-language-server
+      rnix-lsp
+      nixpkgs-fmt
+      statix
+      pyright
+      black
+      nodePackages.typescript-language-server
+      nodePackages.vscode-langservers-extracted
     ];
   };
 
