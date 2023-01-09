@@ -1,9 +1,9 @@
 # exec wal -R -l
 include "$HOME/.cache/wal/colors-sway"
 
-set $wallpaper1 "/home/kronicmage/Pictures/Wallpapers/screen1.jpg"
-set $wallpaper2 "/home/kronicmage/Pictures/Wallpapers/screen2.jpg"
-set $wallpaper3 "/home/kronicmage/Pictures/Wallpapers/screen3.jpg"
+# set $wallpaper1 "/home/kronicmage/Pictures/Wallpapers/screen1.jpg"
+# set $wallpaper2 "/home/kronicmage/Pictures/Wallpapers/screen2.jpg"
+# set $wallpaper3 "/home/kronicmage/Pictures/Wallpapers/screen3.jpg"
 client.focused $color0 $foreground $foreground $foreground $foreground
 # client.focused_inactive $color0 $background $foreground $color7 $background
 # client.unfocused $color0 $background $foreground $color7 $background
@@ -273,11 +273,11 @@ output DP-2 transform 270 pos 1920,-960 scale 1
 # output DP-2 pos 3840,0
 # output HDMI-A-1 pos 3840,0
 
-output eDP-1 background $wallpaper1 fill
+# output eDP-1 background $wallpaper1 fill
 # output DP-2 background $wallpaper2 fill
-output HDMI-A-1 background $wallpaper2 fill
-output DP-1 background $wallpaper2 fill
-output DP-2 background $wallpaper3 fill
+# output HDMI-A-1 background $wallpaper2 fill
+# output DP-1 background $wallpaper2 fill
+# output DP-2 background $wallpaper3 fill
 
 # workspace 1 output eDP-1
 # workspace 2 output DP-1
@@ -290,6 +290,9 @@ input "2:10:TPPS/2_Elan_TrackPoint" {
 
 input "1739:0:Synaptics_TM3289-021" {
     tap enabled
+}
+
+input "16700:12314:PixArt_Dell_MS116_USB_Optical_Mouse" {
 }
 
 # bar {

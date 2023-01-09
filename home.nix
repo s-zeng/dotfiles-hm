@@ -2,20 +2,28 @@
 
 # github.com/fmoda3/nix-configs: home/nvim/
 {
-  # Home Manager needs a bit of information about you and the
-  # paths it should manage.
-  home.username = "kronicmage";
-  home.homeDirectory = "/home/kronicmage";
+  home = {
+    # Home Manager needs a bit of information about you and the
+    # paths it should manage.
+    username = "kronicmage";
+    homeDirectory = "/home/kronicmage";
 
-  # This value determines the Home Manager release that your
-  # configuration is compatible with. This helps avoid breakage
-  # when a new Home Manager release introduces backwards
-  # incompatible changes.
-  #
-  # You can update Home Manager without changing this value. See
-  # the Home Manager release notes for a list of state version
-  # changes in each release.
-  home.stateVersion = "22.11";
+    # This value determines the Home Manager release that your
+    # configuration is compatible with. This helps avoid breakage
+    # when a new Home Manager release introduces backwards
+    # incompatible changes.
+    #
+    # You can update Home Manager without changing this value. See
+    # the Home Manager release notes for a list of state version
+    # changes in each release.
+    stateVersion = "22.11";
+
+    packages = with pkgs; [
+      grim
+      slurp
+    ];
+  };
+
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
@@ -23,11 +31,6 @@
   # no config programs
   programs.pywal.enable = true;
   programs.kitty.enable = true;
-
-  home.packages = with pkgs; [
-    grim
-    slurp
-  ];
 
   programs.git = {
     enable = true;
@@ -51,6 +54,7 @@
     vimAlias = true;
     vimdiffAlias = true;
     withPython3 = true;
+    defaultEditor = true;
 
     plugins = with pkgs.vimPlugins; [
       # feline-nvim
