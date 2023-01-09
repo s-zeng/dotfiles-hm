@@ -54,7 +54,7 @@
     vimAlias = true;
     vimdiffAlias = true;
     withPython3 = true;
-    defaultEditor = true;
+    # defaultEditor = true; # TODO: merged end of 2022, check for updates
 
     plugins = with pkgs.vimPlugins; [
       # feline-nvim
@@ -62,14 +62,13 @@
       # gitsigns-nvim
       # legendary.nvim
       # nvim-autopairs
-      # telescope-ui-select-nvim
       # vim-koka
       # (nvim-treesitter.withPlugins
       #   (plugins: pkgs.nvim-ts-grammars.allGrammars)
       # )
       comment-nvim
-      coq-artifacts
-      coq_nvim
+      # coq-artifacts
+      # coq_nvim
       dhall-vim
       dressing-nvim
       gruvbox-nvim
@@ -83,10 +82,10 @@
       nvim-colorizer-lua
       nvim-lspconfig
       nvim-tree-lua
-      nvim-treesitter
-      nvim-treesitter-context
-      nvim-treesitter-textobjects
-      nvim-ts-rainbow
+      # nvim-treesitter
+      # nvim-treesitter-context
+      # nvim-treesitter-textobjects
+      # nvim-ts-rainbow
       nvim-web-devicons
       parinfer-rust
       plenary-nvim
@@ -95,6 +94,7 @@
       telescope-fzy-native-nvim
       telescope-nvim
       telescope-symbols-nvim
+      telescope-ui-select-nvim
       vim-endwise
       vim-repeat
       vim-sexp
@@ -104,6 +104,10 @@
       vimtex
       vista-vim
       which-key-nvim
+    ];
+
+    extraPackages = with pkgs; [
+      sumneko-lua-language-server
     ];
   };
 
