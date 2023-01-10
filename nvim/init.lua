@@ -1,6 +1,5 @@
 require('config/autocmds')
 require('config/commands')
-require('config/maps')
 require('config/options')
 require('config/statusline')
 require('config/vars')
@@ -17,3 +16,5 @@ require("nvim-tree").setup()
 require("stabilize").setup()
 require("which-key").setup()
 vim.cmd [[colorscheme gruvbox]]
+
+require('config/maps')

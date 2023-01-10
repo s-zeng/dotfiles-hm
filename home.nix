@@ -1,6 +1,9 @@
 { config, pkgs, ... }:
 
 # github.com/fmoda3/nix-configs: home/nvim/
+let
+  nur = import (builtins.fetchTarball "https://github.com/nix-community/NUR/archive/master.tar.gz") { inherit pkgs; };
+in
 {
   home = {
     # Home Manager needs a bit of information about you and the
@@ -22,6 +25,8 @@
       grim
       slurp
       pinentry
+      gopass
+      gopass-jsonapi
     ];
 
     sessionVariables = {
@@ -54,6 +59,22 @@
       enableFishIntegration = true;
     };
 
+    firefox = {
+      enable = true;
+      extensions = with nur.repos.rycee.firefox-addons; [
+        ublock-origin
+        vimium
+        gopass-bridge
+        anonaddy
+        darkreader
+      ];
+      # profiles.default = {
+      #   id = 0;
+      #   name = "Default";
+      #   isDefault = true;
+      # };
+    };
+
     git = {
       enable = true;
       package = pkgs.gitAndTools.gitFull;
@@ -67,6 +88,10 @@
         key = "973C9963CA528797";
         signByDefault = true; # TODO
       };
+    };
+
+    password-store = {
+      enable = true;
     };
 
     neovim = {
