@@ -40,6 +40,15 @@
       enableAliases = true;
     };
 
+    fish = {
+      enable = true;
+    };
+
+    zoxide = {
+      enable = true;
+      enableFishIntegration = true;
+    };
+
     git = {
       enable = true;
       package = pkgs.gitAndTools.gitFull;
