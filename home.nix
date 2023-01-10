@@ -23,6 +23,11 @@
       slurp
       pinentry
     ];
+
+    sessionVariables = {
+      EDITOR = "nvim";
+      VISUAL = "nvim";
+    };
   };
 
   programs = {
@@ -99,7 +104,6 @@
         nvim-ts-rainbow
         nvim-web-devicons
         parinfer-rust
-        plenary-nvim
         purescript-vim
         stabilize-nvim
         telescope-fzy-native-nvim
@@ -148,15 +152,6 @@
 
   xdg.configFile.nvim = {
     source = ./nvim;
-    recursive = true;
-  };
-
-  wayland.windowManager.sway = {
-    enable = true;
-  };
-
-  xdg.configFile.sway = {
-    source = ./sway;
     recursive = true;
   };
 }
