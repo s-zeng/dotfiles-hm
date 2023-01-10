@@ -21,6 +21,7 @@
     packages = with pkgs; [
       grim
       slurp
+      pinentry
     ];
   };
 
@@ -31,6 +32,14 @@
   # no config programs
   programs.pywal.enable = true;
   programs.kitty.enable = true;
+  programs.tealdeer.enable = true;
+
+  programs.gpg.enable = true;
+  services.gpg-agent = {
+    enable = true;
+    pinentryFlavor = "tty";
+    enableFishIntegration = true;
+  };
 
   programs.git = {
     enable = true;
@@ -43,7 +52,7 @@
     };
     signing = {
       key = "973C9963CA528797";
-      signByDefault = false; # TODO
+      signByDefault = true; # TODO
     };
 
   };
@@ -63,9 +72,6 @@
       # legendary.nvim
       # nvim-autopairs
       # vim-koka
-      # (nvim-treesitter.withPlugins
-      #   (plugins: pkgs.nvim-ts-grammars.allGrammars)
-      # )
       comment-nvim
       # coq-artifacts
       # coq_nvim
