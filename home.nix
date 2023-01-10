@@ -73,17 +73,15 @@
       # defaultEditor = true; # TODO: merged end of 2022, check for updates
 
       plugins = with pkgs.vimPlugins; [
-        # feline-nvim
-        # focus-nvim
-        # gitsigns-nvim
         # legendary.nvim
-        # nvim-autopairs
         # vim-koka
-        comment-nvim
         # coq-artifacts
         # coq_nvim
+        # focus-nvim
+        comment-nvim
         dhall-vim
         dressing-nvim
+        gitsigns-nvim
         gruvbox-nvim
         haskell-tools-nvim
         haskell-vim
@@ -92,12 +90,13 @@
         lsp-status-nvim
         lsp_extensions-nvim
         lspkind-nvim
+        nvim-autopairs
         nvim-colorizer-lua
         nvim-lspconfig
         nvim-tree-lua
-        nvim-treesitter.withAllGrammars
         nvim-treesitter-context
         nvim-treesitter-textobjects
+        nvim-treesitter.withAllGrammars
         nvim-ts-rainbow
         nvim-web-devicons
         parinfer-rust

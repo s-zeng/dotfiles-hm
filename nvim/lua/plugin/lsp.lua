@@ -52,6 +52,7 @@ local default_config_servers = {
   'metals',
   'ocamllsp',
   'pyright',
+  'rnix',
   'rust_analyzer',
   'texlab',
   'tsserver',
