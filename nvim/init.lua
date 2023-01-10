@@ -6,7 +6,7 @@ require('config/commands')
 require('config/autocmds')
 require('plugin/lsp')
 require('plugin/telescope')
--- require('plugin/treesitter')
+require('plugin/treesitter')
 
 require("which-key").setup()
 require("nvim-tree").setup()
