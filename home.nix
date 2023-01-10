@@ -73,12 +73,11 @@
       # defaultEditor = true; # TODO: merged end of 2022, check for updates
 
       plugins = with pkgs.vimPlugins; [
-        # legendary.nvim
         # vim-koka
-        # coq-artifacts
-        # coq_nvim
         # focus-nvim
         comment-nvim
+        coq-artifacts
+        coq_nvim
         dhall-vim
         dressing-nvim
         gitsigns-nvim

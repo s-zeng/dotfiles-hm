@@ -5,7 +5,7 @@ lsp_status.register_progress()
 
 local attach_hook = function(status_callback)
   return function(client, bufnr)
-    vim.g["coq_settings"] = { auto_start = 'shut-up' }
+    vim.g["coq_settings"] = { auto_start = 'shut-up', xdg = true }
 
     -- vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
     vim.bo[bufnr].omnifunc = "v:lua.vim.lsp.omnifunc"
