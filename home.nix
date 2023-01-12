@@ -160,23 +160,35 @@ in
       ];
 
       extraPackages = with pkgs; [
+        # telescope tools
         ripgrep
         fd
         fzy
 
-        nodePackages.bash-language-server
-        haskellPackages.haskell-language-server
+        # lsp
+        clojure-lsp
+        cmake-language-server
+        docker-ls
         haskellPackages.dhall-lsp-server
+        haskellPackages.haskell-language-server
         java-language-server
         kotlin-language-server
-        sumneko-lua-language-server
-        rnix-lsp
-        nixpkgs-fmt
-        statix
-        pyright
-        black
+        metals
+        nodePackages.bash-language-server
         nodePackages.typescript-language-server
         nodePackages.vscode-langservers-extracted
+        nodePackages.yaml-language-server
+        ocamlPackages.ocaml-lsp
+        pyright
+        rnix-lsp
+        rust-anaylzer
+        statix
+        sumneko-lua-language-server
+        texlab
+
+        # formatters
+        black
+        nixpkgs-fmt
       ];
     };
 
