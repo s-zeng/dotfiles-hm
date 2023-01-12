@@ -29,6 +29,7 @@ in
       gopass
       gopass-jsonapi
       binwalk
+      xclip
     ];
 
     # TODO: programs.neovim.defaultEditor merged end of 2022, check for updates
@@ -67,7 +68,7 @@ in
           error_symbol = "[_|_](bold red)";
           vicmd_symbol = "[<*>](bold green)";
         };
-        python.detect_extensions = [];
+        python.detect_extensions = [ ];
       };
     };
 
