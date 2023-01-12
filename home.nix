@@ -22,11 +22,13 @@ in
     stateVersion = "22.11";
 
     packages = with pkgs; [
-      grim
-      slurp
+      # grim
+      # slurp
+      flameshot # TODO: added to programs.flameshot recently, check for update 
       pinentry
       gopass
       gopass-jsonapi
+      binwalk
     ];
 
     # TODO: programs.neovim.defaultEditor merged end of 2022, check for updates
@@ -45,14 +47,13 @@ in
     kitty.enable = true;
     tealdeer.enable = true;
     gpg.enable = true;
+    fish.enable = true;
+    bottom.enable = true;
+    mpv.enable = true;
 
     exa = {
       enable = true;
       enableAliases = true;
-    };
-
-    fish = {
-      enable = true;
     };
 
     starship = {
@@ -102,10 +103,6 @@ in
         key = "973C9963CA528797";
         signByDefault = true;
       };
-    };
-
-    password-store = {
-      enable = true;
     };
 
     neovim = {
