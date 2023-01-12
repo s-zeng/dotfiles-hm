@@ -29,6 +29,7 @@ in
       gopass-jsonapi
     ];
 
+    # TODO: programs.neovim.defaultEditor merged end of 2022, check for updates
     sessionVariables = {
       EDITOR = "nvim";
       VISUAL = "nvim";
@@ -54,6 +55,19 @@ in
       enable = true;
     };
 
+    starship = {
+      enable = true;
+      enableFishIntegration = true;
+      settings = {
+        character = {
+          success_symbol = "[>>=](bold green)";
+          error_symbol = "[_|_](bold red)";
+          vicmd_symbol = "[<*>](bold green)";
+        };
+        python.detect_extensions = [];
+      };
+    };
+
     zoxide = {
       enable = true;
       enableFishIntegration = true;
@@ -68,11 +82,11 @@ in
         anonaddy
         darkreader
       ];
-      # profiles.default = {
-      #   id = 0;
-      #   name = "Default";
-      #   isDefault = true;
-      # };
+      profiles.default = {
+        id = 0;
+        name = "Default";
+        isDefault = true;
+      };
     };
 
     git = {
@@ -86,7 +100,7 @@ in
       };
       signing = {
         key = "973C9963CA528797";
-        signByDefault = true; # TODO
+        signByDefault = true;
       };
     };
 
@@ -103,7 +117,6 @@ in
       # defaultEditor = true; # TODO: merged end of 2022, check for updates
 
       plugins = with pkgs.vimPlugins; [
-        # vim-koka
         # focus-nvim
         comment-nvim
         coq-artifacts
@@ -149,6 +162,7 @@ in
       extraPackages = with pkgs; [
         ripgrep
         fd
+        fzy
 
         nodePackages.bash-language-server
         haskellPackages.haskell-language-server
