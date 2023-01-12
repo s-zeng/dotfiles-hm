@@ -181,7 +181,7 @@ in
         ocamlPackages.ocaml-lsp
         pyright
         rnix-lsp
-        rust-anaylzer
+        rust-analyzer
         statix
         sumneko-lua-language-server
         texlab
