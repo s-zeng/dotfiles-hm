@@ -43,19 +43,21 @@ in
     home-manager.enable = true;
 
     # no config programs
-    pywal.enable = true;
-    kitty.enable = true;
-    tealdeer.enable = true;
+    pywal.enable = true; # color manager
+    kitty.enable = true; # terminal emulator
+    tealdeer.enable = true; # tldr
     gpg.enable = true;
-    fish.enable = true;
-    bottom.enable = true;
-    mpv.enable = true;
+    fish.enable = true; # shell replacement
+    bottom.enable = true; # htop replacement
+    mpv.enable = true; # media player
 
+    # ls replacement
     exa = {
       enable = true;
       enableAliases = true;
     };
 
+    # shell prompt manager
     starship = {
       enable = true;
       enableFishIntegration = true;
@@ -69,6 +71,7 @@ in
       };
     };
 
+    # quick shell navigation
     zoxide = {
       enable = true;
       enableFishIntegration = true;
