@@ -3,6 +3,9 @@
 # github.com/fmoda3/nix-configs: home/nvim/
 let
   nur = import (builtins.fetchTarball "https://github.com/nix-community/NUR/archive/master.tar.gz") { inherit pkgs; };
+  useWayland = true;
+  thinkpad = false;
+  graphical = false;
 in
 {
   home = {
@@ -22,14 +25,11 @@ in
     stateVersion = "22.11";
 
     packages = with pkgs; [
-      # grim
-      # slurp
-      flameshot # TODO: added to programs.flameshot recently, check for update 
       pinentry
       gopass
       gopass-jsonapi
       binwalk
-      xclip
+      neofetch
     ];
 
     # TODO: programs.neovim.defaultEditor merged end of 2022, check for updates
@@ -44,13 +44,13 @@ in
     home-manager.enable = true;
 
     # no config programs
-    pywal.enable = true; # color manager
-    kitty.enable = true; # terminal emulator
+    pywal.enable = graphical; # color manager
     tealdeer.enable = true; # tldr
     gpg.enable = true;
     fish.enable = true; # shell replacement
     bottom.enable = true; # htop replacement
-    mpv.enable = true; # media player
+    mpv.enable = graphical; # media player
+    mako.enable = useWayland; # wayland notification daemon
 
     # ls replacement
     exa = {
@@ -78,21 +78,22 @@ in
       enableFishIntegration = true;
     };
 
-    firefox = {
-      enable = true;
-      extensions = with nur.repos.rycee.firefox-addons; [
-        ublock-origin
-        vimium
-        gopass-bridge
-        anonaddy
-        darkreader
-      ];
-      profiles.default = {
-        id = 0;
-        name = "Default";
-        isDefault = true;
-      };
-    };
+    firefox =
+      if graphical then {
+        enable = true;
+        extensions = with nur.repos.rycee.firefox-addons; [
+          ublock-origin
+          vimium
+          gopass-bridge
+          anonaddy
+          darkreader
+        ];
+        profiles.default = {
+          id = 0;
+          name = "Default";
+          isDefault = true;
+        };
+      } else { };
 
     git = {
       enable = true;
@@ -193,7 +194,55 @@ in
       ];
     };
 
+    kitty =
+      if graphical then {
+        enable = true;
+      } else { };
   };
+
+  wayland.windowManager.sway =
+    if useWayland && graphical then
+      {
+        enable = true;
+        wrapperFeatures.gtk = true;
+        config = {
+          bars = [
+            {
+              position = "top";
+              # TODO: port my i3status stuff here
+            }
+          ];
+          gaps = {
+            inner = 10;
+            outer = 0;
+            smartGaps = true;
+          };
+          input =
+            if thinkpad then {
+              "2:10:TPPS/2_Elan_TrackPoint".tap = "enabled";
+              "1739:0:Synaptics_TM3289-021".tap = "enabled";
+            } else { };
+          menu = "rofi -show run";
+          terminal = "kitty";
+          # extraConfigEarly = [ "include \"$HOME/.cache/wal/colors-sway\"" ]; # TODO: recently added, check for updates
+          # output = {
+          #   "*" = {
+          #     bg = "~/path/to/background.png fill";
+          #   };
+          # };
+          # keybindings =
+          #   let
+          #     modifier = config.wayland.windowManager.sway.config.modifier;
+          #   in
+          #   lib.mkOptionDefault {
+          #     "${modifier}+Return" = "exec ${pkgs.foot}/bin/foot";
+          #     "${modifier}+Shift+q" = "kill";
+          #     "${modifier}+d" = "exec ${pkgs.dmenu}/bin/dmenu_path | ${pkgs.dmenu}/bin/dmenu | ${pkgs.findutils}/bin/xargs swaymsg exec --";
+          #   };
+        };
+      } else
+      { enable = false; };
+
 
   services.gpg-agent = {
     enable = true;
