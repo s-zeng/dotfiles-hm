@@ -58,6 +58,11 @@ in
       enableAliases = true;
     };
 
+    direnv = {
+      enable = true;
+      nix-direnv.enable = true;
+    };
+
     # shell prompt manager
     starship = {
       enable = true;
@@ -191,6 +196,8 @@ in
         # formatters
         black
         nixpkgs-fmt
+        ocamlformat
+        ocamlPackages.ocamlformat-rpc-lib
       ];
     };
 
