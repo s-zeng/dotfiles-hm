@@ -3,9 +3,10 @@
 # github.com/fmoda3/nix-configs: home/nvim/
 let
   nur = import (builtins.fetchTarball "https://github.com/nix-community/NUR/archive/master.tar.gz") { inherit pkgs; };
-  useWayland = true;
-  thinkpad = false;
-  graphical = false;
+  config = import ./config.nix;
+  useWayland = config.useWayland;
+  thinkpad = config.thinkpad;
+  graphical = config.graphical;
 in
 {
   home = {
