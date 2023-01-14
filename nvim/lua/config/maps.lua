@@ -16,7 +16,6 @@ local maps = {
     ["<leader>d"] = ":lcd %:p:h<CR>",
     ["<leader>O"] = ":tabnew<CR>",
     ["<leader>v"] = ":vsp<CR>",
-    ["<leader>lc"] = ":COQnow -s<CR>",
     ["<leader>r"] = ":checktime<CR>",
     ["<leader>t0"] = ":tablast<cr>",
     ["<leader>t1"] = "1gt",
