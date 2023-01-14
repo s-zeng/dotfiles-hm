@@ -40,6 +40,18 @@ in
     };
   };
 
+  services.gpg-agent = {
+    enable = true;
+    pinentryFlavor = "tty";
+    enableFishIntegration = true;
+  };
+
+
+  xdg.configFile.nvim = {
+    source = ./nvim;
+    recursive = true;
+  };
+
   programs = {
     # Let Home Manager install and manage itself.
     home-manager.enable = true;
@@ -206,18 +218,6 @@ in
       enable = true;
     };
   } else { });
-
-  services.gpg-agent = {
-    enable = true;
-    pinentryFlavor = "tty";
-    enableFishIntegration = true;
-  };
-
-
-  xdg.configFile.nvim = {
-    source = ./nvim;
-    recursive = true;
-  };
 } // (if graphical && useWayland then {
 
   wayland.windowManager.sway =
