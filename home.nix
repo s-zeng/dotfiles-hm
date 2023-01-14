@@ -31,6 +31,10 @@ in
       gopass-jsonapi
       binwalk
       neofetch
+      ripgrep
+      fd
+      fzy
+
     ];
 
     # TODO: programs.neovim.defaultEditor merged end of 2022, check for updates
@@ -159,12 +163,8 @@ in
         which-key-nvim
       ];
 
+      # only loaded when neovim is launched!
       extraPackages = with pkgs; [
-        # telescope tools
-        ripgrep
-        fd
-        fzy
-
         # lsp
         clojure-lsp
         cmake-language-server
