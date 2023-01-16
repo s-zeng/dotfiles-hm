@@ -3,12 +3,14 @@
 # github.com/fmoda3/nix-configs: home/nvim/
 let
   nur = import (builtins.fetchTarball "https://github.com/nix-community/NUR/archive/master.tar.gz") { inherit pkgs; };
+  unstable = import <nixpkgs-unstable> { config.allowUnfree = true; };
   config = import ./config.nix;
   useWayland = config.useWayland;
   thinkpad = config.thinkpad;
   graphical = config.graphical;
 in
 {
+  nixpkgs.config.allowUnfree = true;
   home = {
     # Home Manager needs a bit of information about you and the
     # paths it should manage.
@@ -34,8 +36,19 @@ in
       ripgrep
       fd
       fzy
+    ]
+    ++ (if graphical then [
+      unstable.discord
+      jetbrains-mono
+    ] else [ ])
+    ++ (if useWayland && graphical then with pkgs; [
+      grim
+      slurp
+    ] else with pkgs; [
+      xclip
+    ])
+    ;
 
-    ];
 
     # TODO: programs.neovim.defaultEditor merged end of 2022, check for updates
     sessionVariables = {
@@ -46,7 +59,7 @@ in
 
   services.gpg-agent = {
     enable = true;
-    pinentryFlavor = "tty";
+    pinentryFlavor = if graphical then "gtk2" else "tty";
     enableFishIntegration = true;
   };
 
