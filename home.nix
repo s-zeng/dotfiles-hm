@@ -40,13 +40,15 @@ in
     ++ (if graphical then [
       unstable.discord
       (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
+      pavucontrol
     ] else [ ])
     ++ (if useWayland && graphical then with pkgs; [
       grim
       slurp
-    ] else with pkgs; [
+      wl-clipboard
+    ] else if graphical && !useWayland then [
       xclip
-    ])
+    ] else [ ])
     ;
 
 
@@ -226,7 +228,6 @@ in
           isDefault = true;
         };
       };
-    pywal.enable = true; # color manager
     kitty = {
       enable = true;
       font.name = "JetBrainsMono Nerd Font";
@@ -274,4 +275,50 @@ in
         #   };
       };
     };
+} else if graphical && !useWayland then {
+  xsession.windowManager.i3 = {
+    enable = true;
+    config = {
+      terminal = "kitty";
+      modifier = "Mod4";
+      # TODO: figure out why i3 defaults to ugly red
+      colors = {
+        focused = {
+          background = "#285577";
+          border = "#4c7899";
+          childBorder = "#285577";
+          indicator = "#2e9ef4";
+          text = "#ffffff";
+        };
+        focusedInactive = {
+          background = "#5f676a";
+          border = "#333333";
+          childBorder = "#5f676a";
+          indicator = "#484e50";
+          text = "#ffffff";
+        };
+        placeholder = {
+          background = "#0c0c0c";
+          border = "#000000";
+          childBorder = "#0c0c0c";
+          indicator = "#000000";
+          text = "#ffffff";
+        };
+        unfocused = {
+          background = "#222222";
+          border = "#333333";
+          childBorder = "#222222";
+          indicator = "#292d2e";
+          text = "#888888";
+        };
+        urgent = {
+          background = "#900000";
+          border = "#2f343a";
+          childBorder = "#900000";
+          indicator = "#900000";
+          text = "#ffffff";
+        };
+      };
+    };
+  };
 } else { })
