@@ -39,7 +39,7 @@ in
     ]
     ++ (if graphical then [
       unstable.discord
-      jetbrains-mono
+      (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
     ] else [ ])
     ++ (if useWayland && graphical then with pkgs; [
       grim
@@ -229,6 +229,7 @@ in
     pywal.enable = true; # color manager
     kitty = {
       enable = true;
+      font.name = "JetBrainsMono Nerd Font";
     };
   } else { });
 } // (if graphical && useWayland then {
