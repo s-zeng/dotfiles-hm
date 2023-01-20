@@ -231,6 +231,8 @@ in
     kitty = {
       enable = true;
       font.name = "JetBrainsMono Nerd Font";
+      font.size = 16;
+      theme = "Gruvbox Dark";
     };
   } else { });
 } // (if graphical && useWayland then {
@@ -276,48 +278,20 @@ in
       };
     };
 } else if graphical && !useWayland then {
+  services.random-background = {
+    enable = true;
+    imageDirectory = "%h/.config/nixpkgs/backgrounds";
+  };
   xsession.windowManager.i3 = {
     enable = true;
+    package = pkgs.i3-gaps; # TODO: remove when merger hits
     config = {
       terminal = "kitty";
       modifier = "Mod4";
-      # TODO: figure out why i3 defaults to ugly red
-      colors = {
-        focused = {
-          background = "#285577";
-          border = "#4c7899";
-          childBorder = "#285577";
-          indicator = "#2e9ef4";
-          text = "#ffffff";
-        };
-        focusedInactive = {
-          background = "#5f676a";
-          border = "#333333";
-          childBorder = "#5f676a";
-          indicator = "#484e50";
-          text = "#ffffff";
-        };
-        placeholder = {
-          background = "#0c0c0c";
-          border = "#000000";
-          childBorder = "#0c0c0c";
-          indicator = "#000000";
-          text = "#ffffff";
-        };
-        unfocused = {
-          background = "#222222";
-          border = "#333333";
-          childBorder = "#222222";
-          indicator = "#292d2e";
-          text = "#888888";
-        };
-        urgent = {
-          background = "#900000";
-          border = "#2f343a";
-          childBorder = "#900000";
-          indicator = "#900000";
-          text = "#ffffff";
-        };
+      gaps = {
+        inner = 10;
+        outer = 0;
+        smartGaps = true;
       };
     };
   };
