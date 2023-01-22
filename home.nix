@@ -46,6 +46,7 @@ in
       grim
       slurp
       wl-clipboard
+      bemenu
     ] else if graphical && !useWayland then [
       xclip
     ] else [ ])
@@ -231,23 +232,24 @@ in
     kitty = {
       enable = true;
       font.name = "JetBrainsMono Nerd Font";
-      font.size = 16;
+      font.size = if thinkpad then 13 else 16;
       theme = "Gruvbox Dark";
     };
   } else { });
-} // (if graphical && useWayland then {
+} // (if graphical then {
+  services.random-background = {
+    enable = true;
+    imageDirectory = "%h/.config/nixpkgs/backgrounds";
+  };
+} else { })
+  // (if graphical && useWayland then {
 
   wayland.windowManager.sway =
     {
       enable = true;
       wrapperFeatures.gtk = true;
       config = {
-        bars = [
-          {
-            position = "top";
-            # TODO: port my i3status stuff here
-          }
-        ];
+        modifier = "Mod4";
         gaps = {
           inner = 10;
           outer = 0;
@@ -258,30 +260,15 @@ in
             "2:10:TPPS/2_Elan_TrackPoint".tap = "enabled";
             "1739:0:Synaptics_TM3289-021".tap = "enabled";
           } else { };
-        menu = "rofi -show run";
         terminal = "kitty";
-        # extraConfigEarly = [ "include \"$HOME/.cache/wal/colors-sway\"" ]; # TODO: recently added, check for updates
-        # output = {
-        #   "*" = {
-        #     bg = "~/path/to/background.png fill";
-        #   };
-        # };
-        # keybindings =
-        #   let
-        #     modifier = config.wayland.windowManager.sway.config.modifier;
-        #   in
-        #   lib.mkOptionDefault {
-        #     "${modifier}+Return" = "exec ${pkgs.foot}/bin/foot";
-        #     "${modifier}+Shift+q" = "kill";
-        #     "${modifier}+d" = "exec ${pkgs.dmenu}/bin/dmenu_path | ${pkgs.dmenu}/bin/dmenu | ${pkgs.findutils}/bin/xargs swaymsg exec --";
-        #   };
+        output = {
+          "*" = {
+            bg = "~/.config/nixpkgs/backgrounds/cozywindow.jpg fill";
+          };
+        };
       };
     };
 } else if graphical && !useWayland then {
-  services.random-background = {
-    enable = true;
-    imageDirectory = "%h/.config/nixpkgs/backgrounds";
-  };
   xsession.windowManager.i3 = {
     enable = true;
     package = pkgs.i3-gaps; # TODO: remove when merger hits
