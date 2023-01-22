@@ -3,7 +3,7 @@
 { config, pkgs, ... }:
 
 let 
-  config = import ./system_config.nix;
+  config = import ./config.nix;
 in
 {
   imports =
@@ -64,13 +64,16 @@ in
   ];
 
   # List services that you want to enable:
+  services.tlp = if config.thinkpad then {
+    enable = true;
+  } else {};
 
   # Enable the OpenSSH daemon.
-  services.openssh = {
+  services.openssh = if !config.thinkpad then {
     enable = true;
     passwordAuthentication = false;
     kbdInteractiveAuthentication = false;
-  };
+  } else {};
   services.pcscd.enable = true;
 
   programs.dconf.enable = true;
