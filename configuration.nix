@@ -110,5 +110,6 @@ in
   security.pam.services.swaylock = {
     text = "auth include login";
   };
+  security.polkit.enable = true;
 
 }

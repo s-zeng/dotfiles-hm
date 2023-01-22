@@ -41,6 +41,7 @@ in
       unstable.discord
       (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
       pavucontrol
+      font-awesome
     ] else [ ])
     ++ (if useWayland && graphical then with pkgs; [
       grim
@@ -218,7 +219,7 @@ in
         enable = true;
         package = pkgs.wrapFirefox pkgs.firefox-unwrapped {
           extraPolicies = {
-            ExtensionSettings = {};
+            ExtensionSettings = { };
           };
         };
         extensions = with nur.repos.rycee.firefox-addons; [
@@ -249,6 +250,59 @@ in
       font.name = "JetBrainsMono Nerd Font";
       font.size = if thinkpad then 13 else 16;
       theme = "Gruvbox Dark";
+    };
+
+    i3status = {
+      enable = true;
+      enableDefault = false;
+      general = {
+        interval = 1;
+        colors = true;
+        color_good = "#b8bb26";
+        color_bad = "#fb4934";
+        color_degraded = "#fabd2f";
+      };
+      modules = {
+        "volume master" = {
+          position = 1;
+          settings = {
+            format = "%volume  ";
+            format_muted = " ";
+            device = "default";
+            mixer = "Master";
+            mixer_idx = 0;
+          };
+        };
+        "wireless wlp2s0" = {
+          position = 2;
+          settings = {
+            format_up = "%quality  %essid %ip";
+            format_down = "";
+          };
+        };
+        "battery 0" = {
+          position = 3;
+          settings = {
+            format = "%status %percentage %consumption %remaining";
+            format_down = "";
+            last_full_capacity = true;
+            integer_battery_capacity = true;
+            low_threshold = 11;
+            threshold_type = "percentage";
+            hide_seconds = true;
+            status_chr = " ";
+            status_bat = " ";
+            status_unk = " ";
+            status_full = " ";
+          };
+        };
+        "tztime local" = {
+          position = 4;
+          settings = {
+            format = " %I:%M %p";
+          };
+        };
+      };
     };
   } else { });
 } // (if graphical then {
