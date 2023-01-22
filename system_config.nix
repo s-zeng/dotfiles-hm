@@ -1,0 +1,3 @@
+{
+ thinkpad = true;
+}

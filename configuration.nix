@@ -2,6 +2,9 @@
 
 { config, pkgs, ... }:
 
+let 
+  config = import ./system_config.nix;
+in
 {
   imports =
     [ # Include the results of the hardware scan.
@@ -25,11 +28,6 @@
   i18n.defaultLocale = "en_CA.UTF-8";
 
   # Configure keymap in X11
-  services.xserver = {
-    layout = "us";
-    xkbVariant = "";
-  };
-
   services.pipewire = {
     enable = true;
     alsa.enable = true;
@@ -41,7 +39,7 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.kronicmage = {
     description = "Simon Zeng";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "video" ];
     isNormalUser = true;
     packages = with pkgs; [];
     shell = pkgs.fish;
@@ -77,16 +75,17 @@
 
   programs.dconf.enable = true;
   services.xserver = {
+    layout = "us";
+    xkbVariant = "";
     enable = true;
-    videoDrivers = [ "nvidia" ];
     libinput.enable = true;
     displayManager.lightdm.enable = true;
     windowManager.i3.enable = true;
     windowManager.i3.package = pkgs.i3-gaps;
     displayManager.defaultSession = "none+i3";
-  };
+  } // (if config.thinkpad then {} else {videoDrivers = ["nvidia"];});
   hardware.opengl.enable = true;
-  hardware.video.hidpi.enable = true;
+  hardware.video.hidpi.enable = !config.thinkpad;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

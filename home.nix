@@ -216,6 +216,11 @@ in
     firefox =
       {
         enable = true;
+        package = pkgs.wrapFirefox pkgs.firefox-unwrapped {
+          extraPolicies = {
+            ExtensionSettings = {};
+          };
+        };
         extensions = with nur.repos.rycee.firefox-addons; [
           ublock-origin
           vimium
@@ -227,6 +232,16 @@ in
           id = 0;
           name = "Default";
           isDefault = true;
+          settings = {
+            "browser.theme.content-theme" = 0; # dark theme
+            "browser.theme.toolbar-theme" = 0; # dark theme
+            "findbar.modalHighlight" = true; # dims screen and animates during ctrl-f
+            "findbar.highlightAll" = true; # highlights all ctrl-f results
+            "browser.newtabpage.activity-stream.enabled" = false; # better new tab
+            "extensions.pocket.enabled" = false; # disable pocket
+            "browser.compactmode.show" = true;
+            "identity.fxaccounts.enabled" = false;
+          };
         };
       };
     kitty = {
