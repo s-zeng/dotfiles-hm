@@ -344,6 +344,8 @@ in
     config = {
       terminal = "kitty";
       modifier = "Mod4";
+      window.hideEdgeBorders = "smart";
+      workspaceAutoBackAndForth = true;
       gaps = {
         inner = 10;
         outer = 0;
