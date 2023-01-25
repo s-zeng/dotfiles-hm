@@ -36,12 +36,15 @@ in
       ripgrep
       fd
       fzy
+      unzip
+      unrar
     ]
     ++ (if graphical then [
       unstable.discord
       (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
       pavucontrol
       font-awesome
+      zathura
     ] else [ ])
     ++ (if useWayland && graphical then with pkgs; [
       grim
