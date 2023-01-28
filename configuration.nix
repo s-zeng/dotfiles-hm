@@ -92,6 +92,8 @@ in
   } // (if config.thinkpad then { } else { videoDrivers = [ "nvidia" ]; });
   hardware.opengl.enable = true;
   hardware.video.hidpi.enable = !config.thinkpad;
+  hardware.bluetooth.enable = true;
+  services.blueman.enable = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
@@ -117,5 +119,6 @@ in
     text = "auth include login";
   };
   security.polkit.enable = true;
+  security.rtkit.enable = true;
 
 }
