@@ -38,6 +38,7 @@ in
       fzy
       unzip
       unrar
+      rlwrap
     ]
     ++ (if graphical then [
       unstable.discord
@@ -45,14 +46,16 @@ in
       pavucontrol
       font-awesome
       zathura
-    ] else [ ])
-    ++ (if useWayland && graphical then with pkgs; [
+    ] ++ (if useWayland then [
       grim
       slurp
       wl-clipboard
       bemenu
-    ] else if graphical && !useWayland then [
+    ] else [
       xclip
+    ]) else [ ])
+    ++ (if thinkpad then [
+      light
     ] else [ ])
     ;
 
