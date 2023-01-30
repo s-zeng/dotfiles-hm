@@ -46,6 +46,7 @@ in
       pavucontrol
       font-awesome
       zathura
+      chromium
     ] ++ (if useWayland then [
       grim
       slurp
