@@ -39,6 +39,8 @@ in
       unzip
       unrar
       rlwrap
+      zip
+      mosh
     ]
     ++ (if graphical then [
       unstable.discord
