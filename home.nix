@@ -49,6 +49,7 @@ in
       font-awesome
       zathura
       chromium
+      libreoffice
     ] ++ (if useWayland then [
       grim
       slurp
