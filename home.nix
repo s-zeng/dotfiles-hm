@@ -47,7 +47,6 @@ in
       (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
       pavucontrol
       font-awesome
-      font-awesome_5
       zathura
       chromium
       libreoffice
