@@ -50,6 +50,7 @@ in
       zathura
       chromium
       libreoffice
+      caprine-bin
     ] ++ (if useWayland then [
       grim
       slurp
