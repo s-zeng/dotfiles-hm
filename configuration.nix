@@ -80,6 +80,12 @@ in
   services.pcscd.enable = true;
 
   programs.dconf.enable = true;
+  programs.steam =
+    if config.graphical then {
+      enable = true;
+      remotePlay.openFirewall = true;
+      dedicatedServer.openFirewall = true;
+    } else { };
   services.xserver = {
     layout = "us";
     xkbVariant = "";

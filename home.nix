@@ -51,6 +51,7 @@ in
       chromium
       libreoffice
       caprine-bin
+      gnome.eog
     ] ++ (if useWayland then [
       grim
       slurp
