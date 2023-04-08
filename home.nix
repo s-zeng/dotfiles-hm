@@ -41,6 +41,7 @@ in
       rlwrap
       zip
       mosh
+      todoist
     ]
     ++ (if graphical then [
       unstable.discord
@@ -52,6 +53,7 @@ in
       libreoffice
       caprine-bin
       gnome.eog
+      todoist-electron
     ] ++ (if useWayland then [
       grim
       slurp
