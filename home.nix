@@ -42,6 +42,8 @@ in
       zip
       mosh
       todoist
+      rclone
+      pulseaudioFull
     ]
     ++ (if graphical then [
       unstable.discord
@@ -54,6 +56,9 @@ in
       caprine-bin
       gnome.eog
       todoist-electron
+      paprefs
+      cinnamon.nemo
+      fractal
     ] ++ (if useWayland then [
       grim
       slurp
@@ -365,6 +370,7 @@ in
         outer = 0;
         smartGaps = true;
       };
+      window.commands = [{criteria={title="HearthstoneOverlay";}; command = "sticky enable";}];
     };
   };
 } else { })
