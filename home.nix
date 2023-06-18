@@ -4,7 +4,7 @@
 let
   nur = import (builtins.fetchTarball "https://github.com/nix-community/NUR/archive/master.tar.gz") { inherit pkgs; };
   unstable = import <nixpkgs-unstable> { config.allowUnfree = true; };
-  config = import ./config.nix;
+  config = import ./system/config.nix;
   useWayland = config.useWayland;
   thinkpad = config.thinkpad;
   graphical = config.graphical;
