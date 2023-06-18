@@ -1,10 +1,9 @@
-{ config, pkgs, ... }:
+{ config, pkgs, username, stateVersion, homeDirectory, nur, nixpkgs-unstable, ... }:
 
 let
-  nur = import (builtins.fetchTarball "https://github.com/nix-community/NUR/archive/master.tar.gz") { inherit pkgs; };
-  config = import ./config.nix;
+  nurNopkgs = import nur { pkgs = pkgs; nurpkgs = pkgs; };
   allowUnfree = config.allowUnfree;
-  unstable = import <nixpkgs-unstable> { config.allowUnfree = allowUnfree; };
+  unstable = import nixpkgs-unstable { config.allowUnfree = allowUnfree; };
   useWayland = config.useWayland;
   thinkpad = config.thinkpad;
   graphical = config.graphical;
@@ -12,6 +11,9 @@ in
 {
   nixpkgs.config.allowUnfree = allowUnfree;
   home = {
+    stateVersion = stateVersion;
+    username = username;
+    homeDirectory = homeDirectory;
     packages = with pkgs; [
       pinentry
       gopass
@@ -226,17 +228,17 @@ in
             ExtensionSettings = { };
           };
         };
-        extensions = with nur.repos.rycee.firefox-addons; [
-          ublock-origin
-          vimium
-          gopass-bridge
-          anonaddy
-          darkreader
-        ];
         profiles.default = {
           id = 0;
           name = "Default";
           isDefault = true;
+          extensions = with nurNopkgs.repos.rycee.firefox-addons; [
+            ublock-origin
+            vimium
+            gopass-bridge
+            anonaddy
+            darkreader
+          ];
           settings = {
             "browser.theme.content-theme" = 0; # dark theme
             "browser.theme.toolbar-theme" = 0; # dark theme
@@ -355,7 +357,7 @@ in
         outer = 0;
         smartGaps = true;
       };
-      window.commands = [{criteria={title="HearthstoneOverlay";}; command = "sticky enable";}];
+      window.commands = [{ criteria = { title = "HearthstoneOverlay"; }; command = "sticky enable"; }];
     };
   };
 } else { })

@@ -2,14 +2,16 @@
   description = "Home Manager configuration";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs";
+    nixpkgs.url = "nixpkgs/nixos-22.11";
+    nixpkgs-unstable.url = "nixpkgs/nixpkgs-unstable";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nur.url = "github:nix-community/NUR";
   };
 
-  outputs = { self, nixpkgs, home-manager }:
+  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, nur }:
     let
       # Values you should modify
       username = "kronicmage"; # $USER
@@ -23,11 +25,6 @@
           thinkpad = true;
           graphical = true;
           allowUnfree = true;
-          packageOverrides = pkgs: {
-            nur = import (builtins.fetchTarball "https://github.com/nix-community/NUR/archive/master.tar.gz") {
-              inherit pkgs;
-            };
-          };
         };
 
       pkgs = import nixpkgs {
@@ -42,7 +39,7 @@
       homeDirectory = "/${homeDirPrefix}/${username}";
 
       home = (import ./home.nix {
-        inherit homeDirectory config pkgs stateVersion system username;
+        inherit homeDirectory config pkgs system username stateVersion nur nixpkgs-unstable;
       });
     in
     {
