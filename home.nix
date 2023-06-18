@@ -1,16 +1,16 @@
 { config, pkgs, ... }:
 
-# github.com/fmoda3/nix-configs: home/nvim/
 let
   nur = import (builtins.fetchTarball "https://github.com/nix-community/NUR/archive/master.tar.gz") { inherit pkgs; };
-  unstable = import <nixpkgs-unstable> { config.allowUnfree = true; };
   config = import ./system/config.nix;
+  allowUnfree = config.allowUnfree;
+  unstable = import <nixpkgs-unstable> { config.allowUnfree = allowUnfree; };
   useWayland = config.useWayland;
   thinkpad = config.thinkpad;
   graphical = config.graphical;
 in
 {
-  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.allowUnfree = allowUnfree;
   home = {
     # Home Manager needs a bit of information about you and the
     # paths it should manage.
