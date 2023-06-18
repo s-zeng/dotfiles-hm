@@ -16,7 +16,7 @@
       system = "x86_64-linux";  # x86_64-linux, aarch64-multiplatform, etc.
       stateVersion = "22.11";     # See https://nixos.org/manual/nixpkgs/stable for most recent
 
-      config = import ./system/config.nix;
+      config = import ./config.nix;
 
       pkgs = import nixpkgs {
         inherit system;
