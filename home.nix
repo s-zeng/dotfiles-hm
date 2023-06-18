@@ -2,7 +2,7 @@
 
 let
   nur = import (builtins.fetchTarball "https://github.com/nix-community/NUR/archive/master.tar.gz") { inherit pkgs; };
-  config = import ./system/config.nix;
+  config = import ./config.nix;
   allowUnfree = config.allowUnfree;
   unstable = import <nixpkgs-unstable> { config.allowUnfree = allowUnfree; };
   useWayland = config.useWayland;
