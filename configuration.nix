@@ -28,19 +28,12 @@ in
   # Select internationalisation properties.
   i18n.defaultLocale = "en_CA.UTF-8";
 
-  # Configure keymap in X11
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    pulse.enable = true;
-  };
-
   services.dbus.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.kronicmage = {
     description = "Simon Zeng";
-    extraGroups = [ "networkmanager" "wheel" "video" ];
+    extraGroups = [ "networkmanager" "wheel" "video" "audio" ];
     isNormalUser = true;
     packages = with pkgs; [ ];
     shell = pkgs.fish;
@@ -51,6 +44,13 @@ in
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
+
+  nix = {
+    package = pkgs.nixFlakes;
+    extraOptions = ''
+      experimental-features = nix-command flakes
+    '';
+  };
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -99,6 +99,8 @@ in
   hardware.opengl.enable = true;
   hardware.video.hidpi.enable = !config.thinkpad;
   hardware.bluetooth.enable = true;
+  hardware.pulseaudio.enable = true;
+  hardware.pulseaudio.support32Bit = true;
   services.blueman.enable = true;
 
   # This value determines the NixOS release from which the default
