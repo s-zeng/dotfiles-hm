@@ -16,11 +16,13 @@
       system = "x86_64-linux";  # x86_64-linux, aarch64-multiplatform, etc.
       stateVersion = "22.11";     # See https://nixos.org/manual/nixpkgs/stable for most recent
 
+      config = import ./system/config.nix;
+
       pkgs = import nixpkgs {
         inherit system;
 
         config = {
-          allowUnfree = true;
+          allowUnfree = config.allowUnfree;
         };
       };
 
@@ -28,9 +30,10 @@
       homeDirectory = "/${homeDirPrefix}/${username}";
 
       home = (import ./home.nix {
-        inherit homeDirectory pkgs stateVersion system username;
+        inherit homeDirectory config pkgs stateVersion system username;
       });
-    in {
+    in
+    {
       homeConfigurations.${username} = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
 
