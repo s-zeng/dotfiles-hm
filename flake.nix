@@ -2,7 +2,7 @@
   description = "Home Manager configuration";
 
   inputs = {
-    nixpkgs.url = "nixpkgs/nixos-22.11";
+    nixpkgs.url = "nixpkgs/nixpkgs-unstable";
     nixpkgs-unstable.url = "nixpkgs/nixpkgs-unstable";
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -32,6 +32,9 @@
 
         config = {
           allowUnfree = config.allowUnfree;
+          permittedInsecurePackages = [
+            "electron-21.4.0"
+          ];
         };
       };
 

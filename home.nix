@@ -1,9 +1,9 @@
-{ config, pkgs, username, stateVersion, homeDirectory, nur, nixpkgs-unstable, ... }:
+{ config, pkgs, username, stateVersion, homeDirectory, nur, nixpkgs-unstable, system, ... }:
 
 let
   nurNopkgs = import nur { pkgs = pkgs; nurpkgs = pkgs; };
   allowUnfree = config.allowUnfree;
-  unstable = import nixpkgs-unstable { config.allowUnfree = allowUnfree; };
+  unstable = import nixpkgs-unstable { inherit system; config.allowUnfree = allowUnfree; };
   useWayland = config.useWayland;
   thinkpad = config.thinkpad;
   graphical = config.graphical;
@@ -219,7 +219,6 @@ in
   } // (if graphical then {
 
     mpv.enable = true; # media player
-    mako.enable = useWayland; # wayland notification daemon
     firefox =
       {
         enable = true;
@@ -316,6 +315,7 @@ in
     enable = true;
     imageDirectory = "%h/.config/nixpkgs/backgrounds";
   };
+  services.mako.enable = useWayland; # wayland notification daemon
 } else { })
   // (if graphical && useWayland then {
 
