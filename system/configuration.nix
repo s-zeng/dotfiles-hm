@@ -56,12 +56,12 @@ in
   # $ nix search wget
 
   environment.systemPackages = with pkgs; [
-    wget
-    (python3.withPackages (ps: with ps; [
-      requests
-    ]))
-    killall
-    lxappearance
+    # wget
+    # (python3.withPackages (ps: with ps; [
+    #   requests
+    # ]))
+    # killall
+    # lxappearance
   ];
 
   # List services that you want to enable:

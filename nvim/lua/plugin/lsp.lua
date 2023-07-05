@@ -5,7 +5,7 @@ lsp_status.register_progress()
 
 local attach_hook = function(status_callback)
   return function(client, bufnr)
-    vim.g["coq_settings"] = { auto_start = 'shut-up', xdg = true }
+    vim.g["coq_settings"] = { auto_start = 'shut-up' }
 
     -- vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
     vim.bo[bufnr].omnifunc = "v:lua.vim.lsp.omnifunc"
@@ -49,6 +49,7 @@ local default_config_servers = {
   'dockerls',
   'html',
   'jsonls',
+  'lua_ls',
   'metals',
   'ocamllsp',
   'pyright',
@@ -85,15 +86,6 @@ ht.setup {
   },
 }
 
-nvim_lsp['sumneko_lua'].setup {
-  cmd = {"lua-language-server"},
-  on_attach = attach_hook(lsp_status.on_attach),
-  capabilities=lsp_status.capabilities,
-  root_dir = util.path.dirname;
-    flags = {
-      debounce_text_changes = 150,
-    }
-}
 nvim_lsp['clangd'].setup {
   on_attach = attach_hook(lsp_status.extensions.clangd.setup),
   capabilities=lsp_status.capabilities,

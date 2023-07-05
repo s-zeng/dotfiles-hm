@@ -31,6 +31,13 @@ in
       todoist
       rclone
       pulseaudioFull
+      wget
+      killall
+      lxappearance
+      (python3.withPackages (ps: with ps; [
+        requests
+        pynvim
+      ]))
     ]
     ++ (if graphical then [
       unstable.discord
@@ -206,7 +213,7 @@ in
         rnix-lsp
         rust-analyzer
         statix
-        sumneko-lua-language-server
+        lua-language-server
         texlab
 
         # formatters

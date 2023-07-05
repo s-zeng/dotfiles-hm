@@ -16,7 +16,6 @@ local gvars = {
   tex_flavor                  = "latex";
   vista_default_executive     = 'nvim_lsp';
   vista_executive_for         = { vimwiki = 'markdown', pandoc = 'markdown', markdown = 'toc' };
-  python3_host_prog = "python3";
   loaded_python_provider = 0;
   loaded_ruby_provider = 0;
   loaded_perl_provider = 0;
