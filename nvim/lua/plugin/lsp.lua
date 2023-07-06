@@ -1,5 +1,6 @@
 local lsp_status = require('lsp-status')
 local nvim_lsp = require('lspconfig')
+local coq = require('coq')
 
 lsp_status.register_progress()
 
@@ -59,19 +60,19 @@ local default_config_servers = {
 }
 
 for _, lsp in ipairs(default_config_servers) do
-  nvim_lsp[lsp].setup {
+  nvim_lsp[lsp].setup(coq.lsp_ensure_capabilities {
     on_attach = lsp_status.on_attach,
     capabilities = lsp_status.capabilities,
     flags = {
       debounce_text_changes = 150,
     }
-  }
+  })
 end
 
 local ht = require('haskell-tools')
 
 ht.setup {
-  hls = {
+  hls = coq.lsp_ensure_capabilities {
     -- See nvim-lspconfig's  suggested configuration for keymaps, etc.
     on_attach = function(client, bufnr)
       local opts = { noremap = true, buffer = bufnr }
@@ -95,13 +96,13 @@ ht.setup {
   },
 }
 
-nvim_lsp['clangd'].setup {
+nvim_lsp['clangd'].setup(coq.lsp_ensure_capabilities {
   on_attach = lsp_status.extensions.clangd.setup,
   capabilities = lsp_status.capabilities,
   flags = {
     debounce_text_changes = 150,
   }
-}
+})
 
 require('lspkind').init()
 
