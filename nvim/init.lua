@@ -6,6 +6,7 @@ require('config/vars')
 require('plugin/lsp')
 require('plugin/telescope')
 require('plugin/treesitter')
+require('plugin/noice')
 
 require("Comment").setup()
 require("colorizer").setup()
