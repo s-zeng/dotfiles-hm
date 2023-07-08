@@ -17,7 +17,6 @@ local options = {
   ignorecase = true;
   inccommand="split";
   laststatus = 3;
-  lazyredraw=true;
   linebreak=true;
   mouse="nvi";
   number=true;
