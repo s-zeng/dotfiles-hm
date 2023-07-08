@@ -151,7 +151,6 @@ in
       # defaultEditor = true; # TODO: merged end of 2022, check for updates
 
       plugins = with pkgs.vimPlugins; [
-        # focus-nvim
         comment-nvim
         coq-artifacts
         coq_nvim
