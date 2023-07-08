@@ -114,3 +114,5 @@ vim.diagnostic.config({
     severity = { min = vim.diagnostic.severity.ERROR }
   }
 })
+
+require("lsp_lines").setup()
