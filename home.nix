@@ -15,7 +15,6 @@ in
     username = username;
     homeDirectory = homeDirectory;
     packages = with pkgs; [
-      pinentry
       gopass
       gopass-jsonapi
       binwalk
@@ -64,6 +63,7 @@ in
     ++ (if thinkpad then [
       light
     ] else [ ])
+    ++ (if graphical then [ pinentry-gtk2 ] else [ pinentry ])
     ;
 
 
@@ -165,6 +165,7 @@ in
         leap-nvim
         lsp-status-nvim
         lsp_extensions-nvim
+        lsp_lines-nvim
         lspkind-nvim
         nvim-autopairs
         nvim-colorizer-lua
