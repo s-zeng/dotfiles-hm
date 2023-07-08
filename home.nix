@@ -65,13 +65,6 @@ in
     ] else [ ])
     ++ (if graphical then [ pinentry-gtk2 ] else [ pinentry ])
     ;
-
-
-    # TODO: programs.neovim.defaultEditor merged end of 2022, check for updates
-    sessionVariables = {
-      EDITOR = "nvim";
-      VISUAL = "nvim";
-    };
   };
 
   services.gpg-agent = {
@@ -148,7 +141,7 @@ in
       vimAlias = true;
       vimdiffAlias = true;
       withPython3 = true;
-      # defaultEditor = true; # TODO: merged end of 2022, check for updates
+      defaultEditor = true;
 
       plugins = with pkgs.vimPlugins; [
         comment-nvim
