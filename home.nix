@@ -167,8 +167,6 @@ in
         lsp_extensions-nvim
         lsp_lines-nvim
         lspkind-nvim
-        noice-nvim
-        nui-nvim
         nvim-autopairs
         nvim-colorizer-lua
         nvim-lspconfig
