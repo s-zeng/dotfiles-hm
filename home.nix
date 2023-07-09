@@ -143,7 +143,6 @@ in
       defaultEditor = true;
 
       plugins = with pkgs.vimPlugins; [
-        comment-nvim
         coq-artifacts
         coq_nvim
         dhall-vim
@@ -158,6 +157,7 @@ in
         lsp_extensions-nvim
         lsp_lines-nvim
         lspkind-nvim
+        mini-nvim
         nvim-autopairs
         nvim-colorizer-lua
         nvim-lspconfig
