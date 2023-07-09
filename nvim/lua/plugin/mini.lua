@@ -3,9 +3,10 @@ require('mini.fuzzy').setup()
 require('mini.files').setup()
 require('mini.pairs').setup()
 require('mini.move').setup()
-local hipatterns = require('mini.hipatterns').setup()
+local hipatterns = require('mini.hipatterns')
 hipatterns.setup({
   highlighters = {
+    -- Highlight hex color strings (`#rrggbb`) using that color
     hex_color = hipatterns.gen_highlighter.hex_color(),
   },
 })
