@@ -3,6 +3,8 @@ require('mini.fuzzy').setup()
 require('mini.files').setup()
 require('mini.pairs').setup()
 require('mini.move').setup()
+require('mini.splitjoin').setup()
+require('mini.starter').setup()
 local hipatterns = require('mini.hipatterns')
 hipatterns.setup({
   highlighters = {
