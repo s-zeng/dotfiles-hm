@@ -159,7 +159,6 @@ in
         lspkind-nvim
         mini-nvim
         nvim-autopairs
-        nvim-colorizer-lua
         nvim-lspconfig
         nvim-notify
         nvim-tree-lua

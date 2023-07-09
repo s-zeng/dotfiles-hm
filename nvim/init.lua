@@ -8,7 +8,6 @@ require('plugin/telescope')
 require('plugin/treesitter')
 require('plugin/mini')
 
-require("colorizer").setup()
 require("gitsigns").setup()
 require("leap").add_default_mappings()
 require("nvim-autopairs").setup()
