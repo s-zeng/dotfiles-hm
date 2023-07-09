@@ -158,7 +158,6 @@ in
         lsp_lines-nvim
         lspkind-nvim
         mini-nvim
-        nvim-autopairs
         nvim-lspconfig
         nvim-notify
         nvim-treesitter-context
