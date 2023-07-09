@@ -1,4 +1,6 @@
 require('mini.comment').setup()
+require('mini.fuzzy').setup()
+require('mini.files').setup()
 local hipatterns = require('mini.hipatterns')
 hipatterns.setup({
   highlighters = {

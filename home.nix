@@ -161,7 +161,6 @@ in
         nvim-autopairs
         nvim-lspconfig
         nvim-notify
-        nvim-tree-lua
         nvim-treesitter-context
         nvim-treesitter-textobjects
         nvim-treesitter.withAllGrammars
@@ -170,7 +169,6 @@ in
         parinfer-rust
         purescript-vim
         stabilize-nvim
-        telescope-fzy-native-nvim
         telescope-nvim
         telescope-symbols-nvim
         telescope-ui-select-nvim

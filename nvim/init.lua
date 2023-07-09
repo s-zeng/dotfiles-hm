@@ -11,7 +11,6 @@ require('plugin/mini')
 require("gitsigns").setup()
 require("leap").add_default_mappings()
 require("nvim-autopairs").setup()
-require("nvim-tree").setup()
 require("stabilize").setup()
 require("which-key").setup()
 vim.cmd [[colorscheme gruvbox]]
