@@ -3,7 +3,6 @@
 
   inputs = {
     nixpkgs.url = "nixpkgs/nixpkgs-unstable";
-    nixpkgs-unstable.url = "nixpkgs/nixpkgs-unstable";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -11,7 +10,7 @@
     nur.url = "github:nix-community/NUR";
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, nur }:
+  outputs = { self, nixpkgs, home-manager, nur }:
     let
       # Values you should modify
       username = "kronicmage"; # $USER
@@ -42,7 +41,7 @@
       homeDirectory = "/${homeDirPrefix}/${username}";
 
       home = (import ./home.nix {
-        inherit homeDirectory config pkgs system username stateVersion nur nixpkgs-unstable;
+        inherit homeDirectory config pkgs system username stateVersion nur;
       });
     in
     {

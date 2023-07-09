@@ -1,9 +1,8 @@
-{ config, pkgs, username, stateVersion, homeDirectory, nur, nixpkgs-unstable, system, ... }:
+{ config, pkgs, username, stateVersion, homeDirectory, nur, system, ... }:
 
 let
   nurNopkgs = import nur { pkgs = pkgs; nurpkgs = pkgs; };
   allowUnfree = config.allowUnfree;
-  unstable = import nixpkgs-unstable { inherit system; config.allowUnfree = allowUnfree; };
   useWayland = config.useWayland;
   thinkpad = config.thinkpad;
   graphical = config.graphical;
@@ -39,7 +38,7 @@ in
       ]))
     ]
     ++ (if graphical then [
-      unstable.discord
+      discord
       (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
       pavucontrol
       font-awesome
