@@ -175,7 +175,6 @@ in
         vim-repeat
         vim-sexp
         vim-sexp-mappings-for-regular-people
-        vim-surround
         vimagit
         vimtex
         vista-vim
