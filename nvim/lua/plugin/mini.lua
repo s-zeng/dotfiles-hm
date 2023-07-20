@@ -4,7 +4,6 @@ require('mini.files').setup()
 require('mini.pairs').setup()
 require('mini.move').setup()
 require('mini.splitjoin').setup()
-require('mini.starter').setup()
 require('mini.surround').setup({
   mappings = {
     add = 'ys',
