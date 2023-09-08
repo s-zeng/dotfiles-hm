@@ -38,6 +38,11 @@ in
       ]))
     ]
     ++ (if graphical then [
+      slack
+      # webex
+      citrix_workspace
+      openconnect
+      xmlstarlet
       discord
       (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
       pavucontrol
@@ -149,7 +154,7 @@ in
         dressing-nvim
         gitsigns-nvim
         gruvbox-nvim
-        haskell-tools-nvim
+        # haskell-tools-nvim
         haskell-vim
         indent-blankline-nvim
         leap-nvim
@@ -187,7 +192,7 @@ in
         clojure-lsp
         cmake-language-server
         docker-ls
-        haskellPackages.dhall-lsp-server
+        # dhall-lsp-server
         haskellPackages.haskell-language-server
         java-language-server
         kotlin-language-server
@@ -230,7 +235,7 @@ in
             ublock-origin
             vimium
             gopass-bridge
-            anonaddy
+            addy_io
             darkreader
           ];
           settings = {
