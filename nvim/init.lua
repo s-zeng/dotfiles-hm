@@ -17,3 +17,5 @@ vim.cmd [[colorscheme gruvbox]]
 require('config/maps')
 
 vim.notify = require("notify")
+
+require("neogit").setup()

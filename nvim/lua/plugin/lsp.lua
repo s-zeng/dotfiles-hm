@@ -89,4 +89,4 @@ vim.diagnostic.config({
   }
 })
 
-require("lsp_lines").setup()
+-- require("lsp_lines").setup()

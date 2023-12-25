@@ -56,6 +56,7 @@ in
       paprefs
       cinnamon.nemo
       fractal
+      qFlipper
     ] ++ (if useWayland then [
       grim
       slurp
@@ -160,9 +161,10 @@ in
         leap-nvim
         lsp-status-nvim
         lsp_extensions-nvim
-        lsp_lines-nvim
+        # lsp_lines-nvim
         lspkind-nvim
         mini-nvim
+        neogit
         nvim-lspconfig
         nvim-notify
         nvim-treesitter-context
@@ -180,7 +182,6 @@ in
         vim-repeat
         vim-sexp
         vim-sexp-mappings-for-regular-people
-        vimagit
         vimtex
         vista-vim
         which-key-nvim
@@ -193,7 +194,7 @@ in
         cmake-language-server
         docker-ls
         # dhall-lsp-server
-        haskellPackages.haskell-language-server
+        haskell-language-server
         java-language-server
         kotlin-language-server
         metals
@@ -204,7 +205,6 @@ in
         ocamlPackages.ocaml-lsp
         pyright
         rnix-lsp
-        rust-analyzer
         statix
         lua-language-server
         texlab
