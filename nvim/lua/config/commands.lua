@@ -1,7 +1,6 @@
 local commands = {
-  Reverse = {opts = {bar = true, range = "%"}, cmd = "<line1>,<line2>g/^/m<line1>-1|nohl"},
-  Json = {opts = {}, cmd = "execute '%!python -m json.tool --sort-keys'"},
-  PackUp = {opts = {nargs = 0}, cmd = function() require('update') end},
+  Reverse = { opts = { bar = true, range = "%" }, cmd = "<line1>,<line2>g/^/m<line1>-1|nohl" },
+  Json = { opts = {}, cmd = "execute '%!python -m json.tool --sort-keys'" },
 }
 
 for name, cmd in pairs(commands) do

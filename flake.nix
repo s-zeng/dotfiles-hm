@@ -15,7 +15,7 @@
       # Values you should modify
       username = "kronicmage"; # $USER
       system = "x86_64-linux";  # x86_64-linux, aarch64-multiplatform, etc.
-      stateVersion = "22.11";     # See https://nixos.org/manual/nixpkgs/stable for most recent
+      stateVersion = "23.11";     # See https://nixos.org/manual/nixpkgs/stable for most recent
 
       config =
         # mega ugly copy paste of system/config.nix cause idk how to import this

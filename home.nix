@@ -32,6 +32,7 @@ in
       wget
       killall
       lxappearance
+      usbutils
       (python3.withPackages (ps: with ps; [
         requests
         pynvim
@@ -57,6 +58,7 @@ in
       cinnamon.nemo
       fractal
       qFlipper
+      calibre
     ] ++ (if useWayland then [
       grim
       slurp
@@ -95,9 +97,9 @@ in
     bottom.enable = true; # htop replacement
 
     # ls replacement
-    exa = {
+    eza = {
       enable = true;
-      enableAliases = true;
+      enableFishIntegration = true;
     };
 
     direnv = {
@@ -149,42 +151,53 @@ in
       defaultEditor = true;
 
       plugins = with pkgs.vimPlugins; [
-        coq-artifacts
-        coq_nvim
-        dhall-vim
-        dressing-nvim
-        gitsigns-nvim
-        gruvbox-nvim
-        # haskell-tools-nvim
-        haskell-vim
-        indent-blankline-nvim
+        # the goat
+        mini-nvim
+
+        # util
         leap-nvim
+        vim-endwise
+        vim-repeat
+
+        # git
+        git-blame-nvim
+        gitsigns-nvim
+        neogit
+
+        # appearance
+        dressing-nvim
+        gruvbox-nvim
+        nvim-notify
+        nvim-web-devicons
+        stabilize-nvim
+
+        # ide features
         lsp-status-nvim
         lsp_extensions-nvim
-        # lsp_lines-nvim
+        lsp_lines-nvim
         lspkind-nvim
-        mini-nvim
-        neogit
+        nvim-dap
+        nvim-dap-python
+        nvim-dap-ui
         nvim-lspconfig
-        nvim-notify
         nvim-treesitter-context
         nvim-treesitter-textobjects
         nvim-treesitter.withAllGrammars
-        nvim-ts-rainbow
-        nvim-web-devicons
+        rainbow-delimiters-nvim
+        vista-vim
+
+        # language specific
+        dhall-vim
+        haskell-tools-nvim
+        haskell-vim
         parinfer-rust
         purescript-vim
-        stabilize-nvim
-        telescope-nvim
-        telescope-symbols-nvim
-        telescope-ui-select-nvim
-        vim-endwise
-        vim-repeat
+        # typescript-tools-nvim
         vim-sexp
         vim-sexp-mappings-for-regular-people
         vimtex
-        vista-vim
-        which-key-nvim
+
+        neodev-nvim
       ];
 
       # only loaded when neovim is launched!
@@ -204,13 +217,14 @@ in
         nodePackages.yaml-language-server
         ocamlPackages.ocaml-lsp
         pyright
-        rnix-lsp
         statix
         lua-language-server
         texlab
+        typescript
 
         # formatters
         black
+        ruff
         nixpkgs-fmt
         ocamlformat
         ocamlPackages.ocamlformat-rpc-lib

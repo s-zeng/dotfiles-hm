@@ -4,7 +4,7 @@ function float()
   local columns = api.nvim_get_option("columns")
   local lines = api.nvim_get_option("lines")
 
-  local height = math.ceil((lines - 2)*0.6)
+  local height = math.ceil((lines - 2) * 0.6)
   local row = math.ceil((lines - height) / 2)
   local width = math.ceil(columns * 0.6)
   local col = math.ceil((columns - width) / 2)
@@ -31,8 +31,8 @@ function float()
   local mid = "│" .. string.rep(" ", width + 2) .. "│"
   local bot = "╰" .. string.rep("─", width + 2) .. "╯"
 
-  local lines = {top}
-  for _=1, height, 1 do
+  local lines = { top }
+  for _ = 1, height, 1 do
     table.insert(lines, mid)
   end
   table.insert(lines, bot)

@@ -33,7 +33,7 @@ in
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.kronicmage = {
     description = "Simon Zeng";
-    extraGroups = [ "networkmanager" "wheel" "video" "audio" ];
+    extraGroups = [ "networkmanager" "wheel" "video" "audio" "dialout" ];
     isNormalUser = true;
     packages = with pkgs; [ ];
     shell = pkgs.fish;
