@@ -188,13 +188,13 @@ in
 
         # language specific
         dhall-vim
-        haskell-tools-nvim
+        # haskell-tools-nvim
         haskell-vim
-        parinfer-rust
+        # parinfer-rust
         purescript-vim
         typescript-tools-nvim
-        vim-sexp
-        vim-sexp-mappings-for-regular-people
+        # vim-sexp
+        # vim-sexp-mappings-for-regular-people
         vimtex
 
         neodev-nvim
