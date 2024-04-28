@@ -192,7 +192,7 @@ in
         haskell-vim
         parinfer-rust
         purescript-vim
-        # typescript-tools-nvim
+        typescript-tools-nvim
         vim-sexp
         vim-sexp-mappings-for-regular-people
         vimtex
@@ -211,6 +211,7 @@ in
         java-language-server
         kotlin-language-server
         metals
+        nil
         nodePackages.bash-language-server
         nodePackages.typescript-language-server
         nodePackages.vscode-langservers-extracted
@@ -225,6 +226,7 @@ in
         # formatters
         black
         ruff
+        ruff-lsp
         nixpkgs-fmt
         ocamlformat
         ocamlPackages.ocamlformat-rpc-lib

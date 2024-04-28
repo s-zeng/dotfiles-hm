@@ -61,9 +61,9 @@ local default_config_servers = {
   'jsonls',
   'lua_ls',
   'metals',
+  'nil_ls',
   'ocamllsp',
   'pyright',
-  'rnix',
   'rust_analyzer',
   'texlab',
   'vimls',
@@ -80,21 +80,21 @@ for _, lsp in ipairs(default_config_servers) do
   })
 end
 
--- require("typescript-tools").setup({
---   on_attach = lsp_status.on_attach,
---   capabilities = lsp_status.capabilities,
---   flags = {
---     debounce_text_changes = 150,
---   },
---   settings = {
---     complete_function_calls = false,
---     code_lens = "all",
---     jsx_close_tag = {
---       enable = true,
---       filetypes = { "javascriptreact", "typescriptreact" }
---     },
---   },
--- })
+require("typescript-tools").setup({
+  on_attach = lsp_status.on_attach,
+  capabilities = lsp_status.capabilities,
+  flags = {
+    debounce_text_changes = 150,
+  },
+  settings = {
+    complete_function_calls = false,
+    code_lens = "all",
+    jsx_close_tag = {
+      enable = true,
+      filetypes = { "javascriptreact", "typescriptreact" }
+    },
+  },
+})
 
 -- local ht = require('haskell-tools')
 
