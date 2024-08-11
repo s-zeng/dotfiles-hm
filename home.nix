@@ -44,7 +44,7 @@ in
       citrix_workspace
       openconnect
       xmlstarlet
-      discord
+      # discord
       (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
       pavucontrol
       font-awesome
@@ -52,13 +52,16 @@ in
       chromium
       libreoffice
       caprine-bin
-      gnome.eog
+      eog
       todoist-electron
       paprefs
-      cinnamon.nemo
+      nemo
       fractal
       qFlipper
       calibre
+      zoom
+      liberation_ttf
+      geogebra
     ] ++ (if useWayland then [
       grim
       slurp

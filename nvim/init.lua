@@ -3,7 +3,6 @@ vim.loader.enable()
 require('config/autocmds')
 require('config/commands')
 require('config/options')
-require('config/statusline')
 require('config/vars')
 require('plugin/lsp')
 require('plugin/treesitter')
@@ -17,5 +16,4 @@ vim.cmd.colorscheme "gruvbox"
 
 require('config/maps')
 
-vim.notify = require("notify")
 require("neogit").setup()

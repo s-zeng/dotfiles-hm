@@ -19,20 +19,12 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
     map('n', 'gD', vim.lsp.buf.declaration, { desc = "Go to declaration" })
     map('n', 'gd', vim.lsp.buf.definition, { desc = "Go to definition" })
-    map('n', 'K', vim.lsp.buf.hover, { desc = "Hover" })
-    -- map('n', 'gi', vim.lsp.buf.implementation, {desc="Go to implementation"})
     map('n', '<leader>la', vim.lsp.buf.code_action, { desc = "Code action" })
     map('n', '<leader>lc', vim.lsp.codelens.run, { desc = "Run code lens" })
     map('n', '<leader>lS', vim.lsp.buf.signature_help, { desc = "Signature help" })
     map('n', '<leader>lf', function() vim.lsp.buf.format { async = true } end, { desc = "Format" })
-    -- map('v', '<leader>lF', vim.lsp.formatexpr({},{0,0},{vim.fn.line("$"),0}), {desc="Format"})
     map('n', '<leader>lR', vim.lsp.buf.rename, { desc = "Rename" })
     map('n', 'gr', vim.lsp.buf.references, { desc = "Get references" })
-    map('n', '<leader>le', vim.diagnostic.open_float, { desc = "View current diagnostic" })
-    -- map('n', 'g0', vim.lsp.buf.document_symbol, {desc="List all document symbols"})
-    -- map('n', 'gW', vim.lsp.buf.workplace_symbol, {desc="List all workplcae symbols"})
-    map('n', '<leader>E', vim.diagnostic.goto_prev, { desc = "Previous diagnostic" })
-    map('n', '<leader>e', vim.diagnostic.goto_next, { desc = "Next diagnostic" })
     map('n', '<leader>lt', vim.lsp.buf.type_definition, { desc = "Type definition" })
     map('n', '<leader>ll', function()
       local line_only = { only_current_line = true }
@@ -80,21 +72,32 @@ for _, lsp in ipairs(default_config_servers) do
   })
 end
 
-require("typescript-tools").setup({
-  on_attach = lsp_status.on_attach,
-  capabilities = lsp_status.capabilities,
-  flags = {
-    debounce_text_changes = 150,
+vim.api.nvim_create_autocmd({ "Filetype" }, {
+  pattern = {
+    "typescript",
+    "javascript",
+    "typescriptreact",
+    "javascriptreact"
   },
-  settings = {
-    complete_function_calls = false,
-    code_lens = "all",
-    jsx_close_tag = {
-      enable = true,
-      filetypes = { "javascriptreact", "typescriptreact" }
-    },
-  },
+  callback = function(_)
+    require("typescript-tools").setup({
+      on_attach = lsp_status.on_attach,
+      capabilities = lsp_status.capabilities,
+      flags = {
+        debounce_text_changes = 150,
+      },
+      settings = {
+        complete_function_calls = false,
+        code_lens = "all",
+        jsx_close_tag = {
+          enable = true,
+          filetypes = { "javascriptreact", "typescriptreact" }
+        },
+      },
+    })
+  end
 })
+
 
 -- local ht = require('haskell-tools')
 
@@ -122,6 +125,22 @@ require("typescript-tools").setup({
 --     }
 --   },
 -- }
+require("typescript-tools").setup({
+  on_attach = lsp_status.on_attach,
+  capabilities = lsp_status.capabilities,
+  flags = {
+    debounce_text_changes = 150,
+  },
+  settings = {
+    complete_function_calls = false,
+    code_lens = "all",
+    jsx_close_tag = {
+      enable = true,
+      filetypes = { "javascriptreact", "typescriptreact" }
+    },
+  },
+})
+
 
 nvim_lsp['clangd'].setup({
   on_attach = lsp_status.extensions.clangd.setup,

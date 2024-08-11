@@ -1,10 +1,10 @@
 require('mini.ai').setup()
-require('mini.comment').setup()
 require('mini.completion').setup()
 require('mini.pairs').setup()
 require('mini.move').setup()
 require('mini.splitjoin').setup()
 require('mini.tabline').setup({ set_vim_settings = false })
+require('mini.statusline').setup({ set_vim_settings = false })
 
 local miniclue = require('mini.clue')
 miniclue.setup({
@@ -152,8 +152,17 @@ starter.setup({
   items = {
     starter.sections.recent_files(5, true, true),
     starter.sections.recent_files(5, false, true),
-    { name = "Vim Config", action = "e ~/.config/nixpkgs/nvim/init.lua", section = "Edit config" },
+    { name = "Vim Config", action = "e ~/repos/dotfiles-des/home-files/.config/nvim/init.lua", section = "Vim things" },
+    { name = "Neogit",     action = "Neogit",                                                  section = "Vim things" },
     starter.sections.builtin_actions(),
   },
+})
+
+local notify = require('mini.notify')
+notify.setup()
+vim.notify = notify.make_notify({
+  ERROR = { duration = 5000 },
+  WARN = { duration = 4000 },
+  INFO = { duration = 3000 },
 })
 
