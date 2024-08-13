@@ -14,6 +14,7 @@ in
     username = username;
     homeDirectory = homeDirectory;
     packages = with pkgs; [
+      dust
       gopass
       gopass-jsonapi
       binwalk
@@ -28,10 +29,8 @@ in
       mosh
       todoist
       rclone
-      pulseaudioFull
       wget
       killall
-      lxappearance
       usbutils
       (python3.withPackages (ps: with ps; [
         requests
@@ -39,6 +38,8 @@ in
       ]))
     ]
     ++ (if graphical then [
+      lxappearance
+      pulseaudioFull
       slack
       # webex
       citrix_workspace
