@@ -221,7 +221,7 @@ in
         nodePackages.vscode-langservers-extracted
         nodePackages.yaml-language-server
         ocamlPackages.ocaml-lsp
-        pylyzer
+        pyright
         statix
         lua-language-server
         texlab
@@ -331,6 +331,10 @@ in
     };
   } else { });
 } // (if graphical then {
+  services.random-background = {
+    enable = true;
+    imageDirectory = "%h/.config/nixpkgs/backgrounds";
+  };
   services.mako.enable = useWayland; # wayland notification daemon
 } else { })
   // (if graphical && useWayland then {
