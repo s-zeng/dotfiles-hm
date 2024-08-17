@@ -39,7 +39,7 @@ in
     ]
     ++ (if graphical then [
       lxappearance
-      pulseaudioFull
+      # pulseaudioFull
       slack
       # webex
       citrix_workspace
@@ -171,7 +171,6 @@ in
         # appearance
         dressing-nvim
         gruvbox-nvim
-        nvim-notify
         nvim-web-devicons
         stabilize-nvim
 
@@ -331,10 +330,6 @@ in
     };
   } else { });
 } // (if graphical then {
-  services.random-background = {
-    enable = true;
-    imageDirectory = "%h/.config/nixpkgs/backgrounds";
-  };
   services.mako.enable = useWayland; # wayland notification daemon
 } else { })
   // (if graphical && useWayland then {
