@@ -24,6 +24,8 @@ vim.api.nvim_create_autocmd('LspAttach', {
     map('n', '<leader>lS', vim.lsp.buf.signature_help, { desc = "Signature help" })
     map('n', '<leader>lf', function() vim.lsp.buf.format { async = true } end, { desc = "Format" })
     map('n', '<leader>lR', vim.lsp.buf.rename, { desc = "Rename" })
+    map('n', '<leader>e', vim.diagnostic.goto_next, { desc = "Next diagnostic" })
+    map('n', '<leader>E', vim.diagnostic.goto_prev, { desc = "Previous diagnostic" })
     map('n', 'gr', vim.lsp.buf.references, { desc = "Get references" })
     map('n', '<leader>lt', vim.lsp.buf.type_definition, { desc = "Type definition" })
     map('n', '<leader>ll', function()

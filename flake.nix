@@ -13,15 +13,15 @@
   outputs = { self, nixpkgs, home-manager, nur }:
     let
       # Values you should modify
-      username = "kronicmage"; # $USER
-      system = "x86_64-linux";  # x86_64-linux, aarch64-multiplatform, etc.
+      username = "simonzeng"; # $USER
+      system = "aarch64-darwin";  # x86_64-linux, aarch64-multiplatform, etc.
       stateVersion = "23.11";     # See https://nixos.org/manual/nixpkgs/stable for most recent
 
       config =
         # mega ugly copy paste of system/config.nix cause idk how to import this
         {
           useWayland = false;
-          thinkpad = true;
+          thinkpad = false;
           graphical = true;
           allowUnfree = true;
         };
@@ -36,12 +36,13 @@
           ];
         };
       };
+      lib = home-manager.lib;
 
       homeDirPrefix = if pkgs.stdenv.hostPlatform.isDarwin then "/Users" else "/home";
       homeDirectory = "/${homeDirPrefix}/${username}";
 
       home = (import ./home.nix {
-        inherit homeDirectory config pkgs system username stateVersion nur;
+        inherit homeDirectory config lib pkgs system username stateVersion nur;
       });
     in
     {

@@ -1,4 +1,4 @@
-{ config, pkgs, username, stateVersion, homeDirectory, nur, system, ... }:
+{ config, lib, pkgs, username, stateVersion, homeDirectory, nur, system, ... }:
 
 let
   nurNopkgs = import nur { pkgs = pkgs; nurpkgs = pkgs; };
@@ -14,6 +14,7 @@ in
     username = username;
     homeDirectory = homeDirectory;
     packages = with pkgs; [
+      stow
       dust
       gopass
       gopass-jsonapi
@@ -31,59 +32,57 @@ in
       rclone
       wget
       killall
-      usbutils
       (python3.withPackages (ps: with ps; [
         requests
         pynvim
       ]))
     ]
     ++ (if graphical then [
-      lxappearance
       # pulseaudioFull
       slack
       # webex
-      citrix_workspace
       openconnect
-      xmlstarlet
       # discord
       (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
-      pavucontrol
       font-awesome
       zathura
-      chromium
-      libreoffice
       caprine-bin
       eog
-      todoist-electron
-      paprefs
-      nemo
-      fractal
-      qFlipper
-      calibre
-      zoom
       liberation_ttf
       geogebra
+      neovide
     ] ++ (if useWayland then [
       grim
       slurp
       wl-clipboard
       bemenu
     ] else [
-      xclip
     ]) else [ ])
     ++ (if thinkpad then [
+      usbutils
       light
+      xclip
+      xmlstarlet
+      lxappearance
+      paprefs
     ] else [ ])
-    ++ (if graphical then [ pinentry-gtk2 ] else [ pinentry ])
+    ++ (if graphical && thinkpad then [ 
+        qFlipper
+        todoist-electron
+        fractal
+        libreoffice
+        pinentry-gtk2 
+        citrix_workspace
+        chromium
+        pavucontrol
+        nemo
+        calibre
+        zoom
+    ] else if graphical then [ 
+        pinentry_mac 
+    ] else [ pinentry ])
     ;
   };
-
-  services.gpg-agent = {
-    enable = true;
-    pinentryFlavor = if graphical then "gtk2" else "tty";
-    enableFishIntegration = true;
-  };
-
 
   xdg.configFile.nvim = {
     source = ./nvim;
@@ -238,37 +237,6 @@ in
   } // (if graphical then {
 
     mpv.enable = true; # media player
-    firefox =
-      {
-        enable = true;
-        package = pkgs.wrapFirefox pkgs.firefox-unwrapped {
-          extraPolicies = {
-            ExtensionSettings = { };
-          };
-        };
-        profiles.default = {
-          id = 0;
-          name = "Default";
-          isDefault = true;
-          extensions = with nurNopkgs.repos.rycee.firefox-addons; [
-            ublock-origin
-            vimium
-            gopass-bridge
-            addy_io
-            darkreader
-          ];
-          settings = {
-            "browser.theme.content-theme" = 0; # dark theme
-            "browser.theme.toolbar-theme" = 0; # dark theme
-            "findbar.modalHighlight" = true; # dims screen and animates during ctrl-f
-            "findbar.highlightAll" = true; # highlights all ctrl-f results
-            "browser.newtabpage.activity-stream.enabled" = false; # better new tab
-            "extensions.pocket.enabled" = false; # disable pocket
-            "browser.compactmode.show" = true;
-            "identity.fxaccounts.enabled" = false;
-          };
-        };
-      };
     kitty = {
       enable = true;
       font.name = "JetBrainsMono Nerd Font";
@@ -276,61 +244,92 @@ in
       theme = "Gruvbox Dark";
     };
 
-    i3status = {
+  } else { });
+} // (if graphical && thinkpad then {
+  services.mako.enable = useWayland; # wayland notification daemon
+  firefox =
+    {
       enable = true;
-      enableDefault = false;
-      general = {
-        interval = 1;
-        colors = true;
-        color_good = "#b8bb26";
-        color_bad = "#fb4934";
-        color_degraded = "#fabd2f";
+      package = pkgs.wrapFirefox pkgs.firefox-unwrapped {
+        extraPolicies = {
+          ExtensionSettings = { };
+        };
       };
-      modules = {
-        "volume master" = {
-          position = 1;
-          settings = {
-            format = "%volume  ";
-            format_muted = " ";
-            device = "default";
-            mixer = "Master";
-            mixer_idx = 0;
-          };
-        };
-        "wireless wlp2s0" = {
-          position = 2;
-          settings = {
-            format_up = "%quality  %essid %ip";
-            format_down = "";
-          };
-        };
-        "battery 0" = {
-          position = 3;
-          settings = {
-            format = "%status %percentage %consumption %remaining";
-            format_down = "";
-            last_full_capacity = true;
-            integer_battery_capacity = true;
-            low_threshold = 11;
-            threshold_type = "percentage";
-            hide_seconds = true;
-            status_chr = " ";
-            status_bat = " ";
-            status_unk = " ";
-            status_full = " ";
-          };
-        };
-        "tztime local" = {
-          position = 4;
-          settings = {
-            format = " %I:%M %p";
-          };
+      profiles.default = {
+        id = 0;
+        name = "Default";
+        isDefault = true;
+        extensions = with nurNopkgs.repos.rycee.firefox-addons; [
+          ublock-origin
+          vimium
+          gopass-bridge
+          addy_io
+          darkreader
+        ];
+        settings = {
+          "browser.theme.content-theme" = 0; # dark theme
+          "browser.theme.toolbar-theme" = 0; # dark theme
+          "findbar.modalHighlight" = true; # dims screen and animates during ctrl-f
+          "findbar.highlightAll" = true; # highlights all ctrl-f results
+          "browser.newtabpage.activity-stream.enabled" = false; # better new tab
+          "extensions.pocket.enabled" = false; # disable pocket
+          "browser.compactmode.show" = true;
+          "identity.fxaccounts.enabled" = false;
         };
       };
     };
-  } else { });
-} // (if graphical then {
-  services.mako.enable = useWayland; # wayland notification daemon
+  i3status = {
+    enable = true;
+    enableDefault = false;
+    general = {
+      interval = 1;
+      colors = true;
+      color_good = "#b8bb26";
+      color_bad = "#fb4934";
+      color_degraded = "#fabd2f";
+    };
+    modules = {
+      "volume master" = {
+        position = 1;
+        settings = {
+          format = "%volume  ";
+          format_muted = " ";
+          device = "default";
+          mixer = "Master";
+          mixer_idx = 0;
+        };
+      };
+      "wireless wlp2s0" = {
+        position = 2;
+        settings = {
+          format_up = "%quality  %essid %ip";
+          format_down = "";
+        };
+      };
+      "battery 0" = {
+        position = 3;
+        settings = {
+          format = "%status %percentage %consumption %remaining";
+          format_down = "";
+          last_full_capacity = true;
+          integer_battery_capacity = true;
+          low_threshold = 11;
+          threshold_type = "percentage";
+          hide_seconds = true;
+          status_chr = " ";
+          status_bat = " ";
+          status_unk = " ";
+          status_full = " ";
+        };
+      };
+      "tztime local" = {
+        position = 4;
+        settings = {
+          format = " %I:%M %p";
+        };
+      };
+    };
+  };
 } else { })
   // (if graphical && useWayland then {
 
@@ -358,7 +357,7 @@ in
         };
       };
     };
-} else if graphical && !useWayland then {
+} else if thinkpad && graphical && !useWayland then {
   xsession.windowManager.i3 = {
     enable = true;
     package = pkgs.i3-gaps; # TODO: remove when merger hits
@@ -375,4 +374,14 @@ in
       window.commands = [{ criteria = { title = "HearthstoneOverlay"; }; command = "sticky enable"; }];
     };
   };
-} else { })
+} else { }) 
+  // (if thinkpad then {
+    services.gpg-agent = {
+      enable = true;
+      pinentryFlavor = if graphical then "gtk2" else "tty";
+      enableFishIntegration = true;
+    };
+  }
+else { })
+
+

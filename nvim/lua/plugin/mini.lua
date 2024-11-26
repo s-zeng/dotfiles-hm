@@ -152,8 +152,8 @@ starter.setup({
   items = {
     starter.sections.recent_files(5, true, true),
     starter.sections.recent_files(5, false, true),
-    { name = "Vim Config", action = "e ~/repos/dotfiles-des/home-files/.config/nvim/init.lua", section = "Vim things" },
-    { name = "Neogit",     action = "Neogit",                                                  section = "Vim things" },
+    { name = "Home Manager Config", action = "e ~/.config/home-manager/home.nix", section = "Vim things" },
+    { name = "Neogit",              action = "Neogit",                            section = "Vim things" },
     starter.sections.builtin_actions(),
   },
 })
@@ -165,4 +165,3 @@ vim.notify = notify.make_notify({
   WARN = { duration = 4000 },
   INFO = { duration = 3000 },
 })
-
