@@ -15,11 +15,11 @@ local autocmds = {
   { cond = "Filetype",  cmd = { pattern = "tex", command = "set tw=80 formatoptions+=wn2 spell" } },
   { cond = "Filetype",  cmd = { pattern = { "ruby", "lua" }, command = "set shiftwidth=2 tabstop=2" } },
   { cond = "TabLeave",  cmd = { pattern = "*", command = "let g:lasttab = tabpagenr()" } },
-  -- { cond = "TermClose", cmd = { pattern = "*", command = "setlocal number relativenumber" } },
-  -- { cond = "TermClose", cmd = { pattern = "*", command = [[exe "bd! " . expand('<abuf>')]] } },
-  -- { cond = "TermEnter", cmd = { pattern = "*", command = "setlocal scrolloff=0" } },
-  -- { cond = "TermLeave", cmd = { pattern = "*", command = "setlocal scrolloff=999999" } },
-  -- { cond = "TermOpen",  cmd = { pattern = "*", command = "setlocal nonumber norelativenumber nospell" } },
+  { cond = "TermClose", cmd = { pattern = "*", command = "setlocal number relativenumber" } },
+  { cond = "TermClose", cmd = { pattern = "*", command = [[exe "bd! " . expand('<abuf>')]] } },
+  { cond = "TermEnter", cmd = { pattern = "*", command = "setlocal scrolloff=0" } },
+  { cond = "TermLeave", cmd = { pattern = "*", command = "setlocal scrolloff=999999" } },
+  { cond = "TermOpen",  cmd = { pattern = "*", command = "setlocal nonumber norelativenumber nospell" } },
   {
     cond = "TextYankPost",
     cmd = {

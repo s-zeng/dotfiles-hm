@@ -18,7 +18,6 @@ local options = {
   pumblend = 10,
   relativenumber = true,
   scrolloff = 999999,
-  shell = "/home/kronicmage/.nix-profile/bin/fish",
   shiftwidth = 4,
   shortmess = "aoOTIcF",
   showmatch = true,
