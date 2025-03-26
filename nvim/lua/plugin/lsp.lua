@@ -52,6 +52,7 @@ local default_config_servers = {
   'dhall_lsp_server',
   'dockerls',
   'html',
+  'hls',
   'jsonls',
   'lua_ls',
   'metals',
@@ -104,7 +105,7 @@ vim.api.nvim_create_autocmd({ "Filetype" }, {
 -- local ht = require('haskell-tools')
 
 -- ht.setup {
---   hls = coq.lsp_ensure_capabilities {
+--   hls = {
 --     -- See nvim-lspconfig's  suggested configuration for keymaps, etc.
 --     on_attach = function(client, bufnr)
 --       local opts = { noremap = true, buffer = bufnr }

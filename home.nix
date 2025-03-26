@@ -14,6 +14,7 @@ in
     username = username;
     homeDirectory = homeDirectory;
     packages = with pkgs; [
+      ffmpeg
       stow
       dust
       gopass
@@ -32,6 +33,7 @@ in
       rclone
       wget
       killall
+      yt-dlp
       (python3.withPackages (ps: with ps; [
         requests
         pynvim
@@ -212,6 +214,7 @@ in
         haskell-language-server
         java-language-server
         kotlin-language-server
+        rust-analyzer
         metals
         nil
         nodePackages.bash-language-server
