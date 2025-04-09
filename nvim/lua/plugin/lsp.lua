@@ -56,7 +56,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
 --   'metals',
 --   'nil_ls',
 --   'ocamllsp',
---   'rust_analyzer',
 --   'texlab',
 --   'yamlls'
 -- }
@@ -73,6 +72,7 @@ vim.lsp.enable({
   'lua_ls',
   'pyright',
   'ruff',
+  'rust_analyzer',
 })
 
 vim.api.nvim_create_autocmd({ "Filetype" }, {
