@@ -45,11 +45,10 @@ in
       # webex
       openconnect
       # discord
-      (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
+      nerd-fonts.jetbrains-mono
       font-awesome
       zathura
       caprine-bin
-      eog
       liberation_ttf
       geogebra
       neovide
@@ -61,6 +60,7 @@ in
     ] else [
     ]) else [ ])
     ++ (if thinkpad then [
+      eog
       usbutils
       light
       xclip
@@ -239,17 +239,17 @@ in
     };
   } // (if graphical then {
 
-    mpv.enable = true; # media player
     kitty = {
       enable = true;
       font.name = "JetBrainsMono Nerd Font";
       font.size = if thinkpad then 13 else 16;
-      theme = "Gruvbox Dark";
+      themeFile = "gruvbox-dark";
     };
 
   } else { });
 } // (if graphical && thinkpad then {
   services.mako.enable = useWayland; # wayland notification daemon
+  mpv.enable = true; # media player
   firefox =
     {
       enable = true;
