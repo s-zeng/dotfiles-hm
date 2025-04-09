@@ -1,13 +1,11 @@
 local options = {
-  -- foldmethod="expr";
-  completeopt = "menuone,noinsert,noselect",
+  completeopt = "menuone,noinsert,noselect,fuzzy,popup",
   conceallevel = 3,
   confirm = true,
   cursorline = true,
   expandtab = true,
-  foldexpr = "nvim_treesitter#foldexpr()",
   foldlevel = 99,
-  foldmethod = "indent",
+  foldmethod = "expr",
   grepprg = "rg --vimgrep",
   guifont = "JetBrainsMono Nerd Font Mono:h13",
   ignorecase = true,
@@ -25,12 +23,14 @@ local options = {
   smartcase = true,
   smartindent = true,
   splitbelow = true,
+  splitkeep = "screen",
   splitright = true,
   tabstop = 4,
   timeoutlen = 300,
   undofile = true,
   undolevels = 10000,
   virtualedit = "block",
+  winborder = 'rounded',
   wrap = false,
 }
 

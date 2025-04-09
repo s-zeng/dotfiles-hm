@@ -161,7 +161,6 @@ in
 
         # util
         leap-nvim
-        vim-endwise
         vim-repeat
 
         # git
@@ -170,21 +169,16 @@ in
         neogit
 
         # appearance
-        dressing-nvim
         gruvbox-nvim
-        nvim-web-devicons
-        stabilize-nvim
 
         # ide features
         lsp-status-nvim
-        lsp_extensions-nvim
-        lsp_lines-nvim
         lspkind-nvim
         nvim-dap
         nvim-dap-python
         nvim-dap-ui
-        nvim-lspconfig
         nvim-treesitter-context
+        nvim-treesitter-endwise
         nvim-treesitter-textobjects
         nvim-treesitter.withAllGrammars
         rainbow-delimiters-nvim
@@ -192,7 +186,7 @@ in
 
         # language specific
         dhall-vim
-        # haskell-tools-nvim
+        haskell-tools-nvim
         haskell-vim
         # parinfer-rust
         purescript-vim
@@ -200,8 +194,6 @@ in
         # vim-sexp
         # vim-sexp-mappings-for-regular-people
         vimtex
-
-        neodev-nvim
       ];
 
       # only loaded when neovim is launched!

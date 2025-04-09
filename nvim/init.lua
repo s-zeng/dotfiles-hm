@@ -11,7 +11,6 @@ require('plugin/dap')
 require('plugin/gitsigns')
 
 require("leap").add_default_mappings()
-require("stabilize").setup()
 vim.cmd.colorscheme "gruvbox"
 
 require('config/maps')
