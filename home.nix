@@ -233,8 +233,8 @@ in
 
     kitty = {
       enable = true;
-      font.name = "JetBrainsMono Nerd Font";
-      font.size = if thinkpad then 13 else 16;
+      font.name = "JetBrainsMono Nerd Font Mono";
+      font.size = 13;
       themeFile = "gruvbox-dark";
     };
 
