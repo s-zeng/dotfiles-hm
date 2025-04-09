@@ -1,5 +1,5 @@
 require('mini.ai').setup()
--- require('mini.completion').setup()
+require('mini.icons').setup()
 require('mini.pairs').setup()
 require('mini.move').setup()
 require('mini.splitjoin').setup()
@@ -135,6 +135,7 @@ vim.keymap.set('n', '<leader>?', MiniPick.registry.registry, { desc = "List pick
 vim.keymap.set('n', '<F8>', MiniExtra.pickers.explorer, { desc = "File explorer" })
 vim.keymap.set('n', '<leader>lr', function() MiniExtra.pickers.lsp({ scope = 'references' }) end,
   { desc = "List references" })
+vim.ui.select = MiniPick.ui_select
 
 require('mini.surround').setup({
   mappings = {
