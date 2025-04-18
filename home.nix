@@ -20,7 +20,7 @@ in
       gopass
       gopass-jsonapi
       binwalk
-      neofetch
+      fastfetch
       ripgrep
       fd
       fzy
