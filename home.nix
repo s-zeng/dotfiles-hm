@@ -52,6 +52,7 @@ in
       liberation_ttf
       geogebra
       neovide
+      obsidian
     ] ++ (if useWayland then [
       grim
       slurp
