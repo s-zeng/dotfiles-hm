@@ -34,6 +34,7 @@ in
       wget
       killall
       yt-dlp
+      graphviz
       (python3.withPackages (ps: with ps; [
         requests
         pynvim
