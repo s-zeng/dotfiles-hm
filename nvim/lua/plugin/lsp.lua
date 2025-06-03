@@ -71,6 +71,7 @@ vim.lsp.config('*', {
 vim.lsp.enable({
   'lua_ls',
   'pyright',
+  'ty',
   'ruff',
   'rust_analyzer',
 })

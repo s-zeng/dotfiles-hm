@@ -21,8 +21,6 @@ in
       gopass-jsonapi
       binwalk
       fastfetch
-      ripgrep
-      fd
       fzy
       unzip
       unrar
@@ -30,11 +28,11 @@ in
       zip
       mosh
       todoist
-      rclone
       wget
       killall
-      yt-dlp
       graphviz
+      nix-search
+      zellij
       (python3.withPackages (ps: with ps; [
         requests
         pynvim
@@ -102,6 +100,11 @@ in
     gpg.enable = true;
     fish.enable = true; # shell replacement
     bottom.enable = true; # htop replacement
+    ripgrep.enable = true;
+    fd.enable = true;
+    rclone.enable = true;
+    yt-dlp.enable = true;
+
 
     # ls replacement
     eza = {
@@ -221,11 +224,11 @@ in
         lua-language-server
         texlab
         typescript
+        ty
 
         # formatters
         black
         ruff
-        ruff-lsp
         nixpkgs-fmt
         ocamlformat
         ocamlPackages.ocamlformat-rpc-lib
