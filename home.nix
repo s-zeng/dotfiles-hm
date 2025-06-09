@@ -177,6 +177,7 @@ in
         gruvbox-nvim
 
         # ide features
+        friendly-snippets
         lsp-status-nvim
         lspkind-nvim
         nvim-dap
