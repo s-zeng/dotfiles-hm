@@ -21,7 +21,7 @@ local autocmds = {
     cond = "TextYankPost",
     cmd = {
       pattern = "*",
-      command = "silent! lua return (not vim.v.event.visual) and require'vim.highlight'.on_yank{timeout=300}"
+      command = "silent! lua return (not vim.v.event.visual) and require'vim.hl'.on_yank{timeout=300}"
     }
   },
 }
