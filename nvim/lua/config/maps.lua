@@ -50,6 +50,7 @@ local maps = {
     ["<Up>"] = { [[pumvisible() ? "\<C-p>" : "\<Up>"]], nil, { noremap = true, expr = true } },
     ["<Down>"] = { [[pumvisible() ? "\<C-n>" : "\<Down>"]], nil, { noremap = true, expr = true } },
     ["<c-c>"] = "<ESC>",
+    ["<D-v>"] = "<C-R>+",
     ["<cr>"] = { [[pumvisible() ? "\<C-y>" : "\<cr>"]], nil, { noremap = true, expr = true } },
     ["jjfa"] = '∀',
     ["jjla"] = 'λ',
