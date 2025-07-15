@@ -37,6 +37,7 @@ in
         requests
         pynvim
       ]))
+      claude-code
     ]
     ++ (if graphical then [
       # pulseaudioFull

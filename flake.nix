@@ -8,9 +8,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nur.url = "github:nix-community/NUR";
+    claude-code.url = "github:sadjow/claude-code-nix";
   };
 
-  outputs = { self, nixpkgs, home-manager, nur }:
+  outputs = { self, nixpkgs, home-manager, nur, claude-code, ... }:
     let
       # Values you should modify
       username = "simonzeng"; # $USER
@@ -35,7 +36,9 @@
             "electron-21.4.0"
           ];
         };
+        overlays = [ claude-code.overlays.default ];
       };
+
       lib = home-manager.lib;
 
       homeDirPrefix = if pkgs.stdenv.hostPlatform.isDarwin then "/Users" else "/home";
