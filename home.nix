@@ -38,6 +38,7 @@ in
         pynvim
       ]))
       claude-code
+      nodejs_24
     ]
     ++ (if graphical then [
       # pulseaudioFull
@@ -238,11 +239,20 @@ in
     };
   } // (if graphical then {
 
-    kitty = {
+    wezterm = {
       enable = true;
-      font.name = "JetBrainsMono Nerd Font Mono";
-      font.size = 13;
-      themeFile = "gruvbox-dark";
+      extraConfig = ''
+      return {
+        font = wezterm.font("JetBrainsMono Nerd Font Mono"),
+        font_size = 13.0,
+        color_scheme = "GruvboxDark",
+        hide_tab_bar_if_only_one_tab = true,
+        -- default_prog = { "zsh", "--login", "-c", "tmux attach -t dev || tmux new -s dev" },
+        -- keys = {
+        --   {key="n", mods="SHIFT|CTRL", action="ToggleFullScreen"},
+        -- }
+      }
+      '';
     };
 
   } else { });
