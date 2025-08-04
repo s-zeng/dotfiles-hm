@@ -39,6 +39,7 @@ in
       ]))
       claude-code
       nodejs_24
+      gitui
     ]
     ++ (if graphical then [
       # pulseaudioFull
@@ -243,7 +244,7 @@ in
       enable = true;
       extraConfig = ''
       return {
-        font = wezterm.font("JetBrainsMono Nerd Font Mono"),
+        font = wezterm.font("JetBrains Mono"),
         font_size = 13.0,
         color_scheme = "GruvboxDark",
         hide_tab_bar_if_only_one_tab = true,
@@ -254,7 +255,6 @@ in
       }
       '';
     };
-
   } else { });
 } // (if graphical && thinkpad then {
   services.mako.enable = useWayland; # wayland notification daemon
@@ -374,7 +374,7 @@ in
     enable = true;
     package = pkgs.i3-gaps; # TODO: remove when merger hits
     config = {
-      terminal = "kitty";
+      terminal = "wezterm";
       modifier = "Mod4";
       window.hideEdgeBorders = "smart";
       workspaceAutoBackAndForth = true;
