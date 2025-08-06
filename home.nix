@@ -71,20 +71,20 @@ in
       lxappearance
       paprefs
     ] else [ ])
-    ++ (if graphical && thinkpad then [ 
+    ++ (if graphical && thinkpad then [
         qFlipper
         todoist-electron
         fractal
         libreoffice
-        pinentry-gtk2 
+        pinentry-gtk2
         citrix_workspace
         chromium
         pavucontrol
         nemo
         calibre
         zoom
-    ] else if graphical then [ 
-        pinentry_mac 
+    ] else if graphical then [
+        pinentry_mac
     ] else [ pinentry ])
     ;
   };
@@ -389,7 +389,7 @@ in
       window.commands = [{ criteria = { title = "HearthstoneOverlay"; }; command = "sticky enable"; }];
     };
   };
-} else { }) 
+} else { })
   // (if thinkpad then {
     services.gpg-agent = {
       enable = true;
@@ -398,5 +398,3 @@ in
     };
   }
 else { })
-
-
