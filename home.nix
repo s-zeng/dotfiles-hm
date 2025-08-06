@@ -107,6 +107,10 @@ in
     fd.enable = true;
     rclone.enable = true;
     yt-dlp.enable = true;
+    television = {
+      enable = true;
+      enableFishIntegration = true;
+    };
 
 
     # ls replacement
