@@ -40,6 +40,7 @@ in
       claude-code
       nodejs_24
       gitui
+      imagemagick
     ]
     ++ (if graphical then [
       # pulseaudioFull
@@ -55,6 +56,7 @@ in
       geogebra
       neovide
       obsidian
+      youtube-music
     ] ++ (if useWayland then [
       grim
       slurp

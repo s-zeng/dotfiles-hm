@@ -24,8 +24,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
     map('n', 'gd', vim.lsp.buf.definition, { desc = "Go to definition" })
     map('n', '<leader>lc', vim.lsp.codelens.run, { desc = "Run code lens" })
     map('n', '<leader>lf', function() vim.lsp.buf.format { async = true } end, { desc = "Format" })
-    map('n', '<leader>e', vim.diagnostic.goto_next, { desc = "Next diagnostic" })
-    map('n', '<leader>E', vim.diagnostic.goto_prev, { desc = "Previous diagnostic" })
     map('n', '<leader>lt', vim.lsp.buf.type_definition, { desc = "Type definition" })
     map('n', '<leader>ll', function()
       local line_only = { current_line = true }
