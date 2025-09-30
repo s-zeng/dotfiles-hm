@@ -278,9 +278,6 @@ in
       }
       '';
     };
-    zed-editor = {
-      enable = true;
-    };
   } else { });
 } // (if graphical && thinkpad then {
   services.mako.enable = useWayland; # wayland notification daemon
