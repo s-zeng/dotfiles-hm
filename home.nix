@@ -19,7 +19,7 @@ in
       dust
       gopass
       gopass-jsonapi
-      binwalk
+      # binwalk
       fastfetch
       fzy
       unzip
