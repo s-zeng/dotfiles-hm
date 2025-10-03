@@ -105,6 +105,7 @@ in
     gpg.enable = true;
     fish.enable = true; # shell replacement
     bottom.enable = true; # htop replacement
+    bat.enable = true;
     ripgrep.enable = true;
     fd.enable = true;
     rclone.enable = true;
@@ -272,9 +273,10 @@ in
         color_scheme = "GruvboxDark",
         hide_tab_bar_if_only_one_tab = true,
         -- default_prog = { "zsh", "--login", "-c", "tmux attach -t dev || tmux new -s dev" },
-        -- keys = {
+        keys = {
+          {key="Enter", mods="SHIFT", action=wezterm.action{SendString="\x1b\r"}},
         --   {key="n", mods="SHIFT|CTRL", action="ToggleFullScreen"},
-        -- }
+        }
       }
       '';
     };
