@@ -96,6 +96,11 @@ in
     recursive = true;
   };
 
+  xdg.configFile.agent-os = {
+    source = ./agent-os;
+    recursive = true;
+  };
+
   programs = {
     # Let Home Manager install and manage itself.
     home-manager.enable = true;
