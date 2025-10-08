@@ -6,6 +6,34 @@ let
   useWayland = config.useWayland;
   thinkpad = config.thinkpad;
   graphical = config.graphical;
+  editorPackages = with pkgs; [
+    # lsp
+    clojure-lsp
+    cmake-language-server
+    docker-ls
+    # dhall-lsp-server
+    haskell-language-server
+    java-language-server
+    kotlin-language-server
+    metals
+    nil
+    nodePackages.bash-language-server
+    nodePackages.typescript-language-server
+    nodePackages.vscode-langservers-extracted
+    nodePackages.yaml-language-server
+    ocamlPackages.ocaml-lsp
+    pyright
+    statix
+    lua-language-server
+    texlab
+    typescript
+
+    # formatters
+    black
+    nixpkgs-fmt
+    ocamlformat
+    ocamlPackages.ocamlformat-rpc-lib
+  ];
 in
 {
   nixpkgs.config.allowUnfree = allowUnfree;
@@ -41,6 +69,10 @@ in
       nodejs_24
       gitui
       imagemagick
+      gh
+      ty
+      ruff
+      rust-analyzer
     ]
     ++ (if graphical then [
       # pulseaudioFull
@@ -218,41 +250,24 @@ in
       ];
 
       # only loaded when neovim is launched!
-      extraPackages = with pkgs; [
-        # lsp
-        clojure-lsp
-        cmake-language-server
-        docker-ls
-        # dhall-lsp-server
-        haskell-language-server
-        java-language-server
-        kotlin-language-server
-        rust-analyzer
-        metals
-        nil
-        nodePackages.bash-language-server
-        nodePackages.typescript-language-server
-        nodePackages.vscode-langservers-extracted
-        nodePackages.yaml-language-server
-        ocamlPackages.ocaml-lsp
-        pyright
-        statix
-        lua-language-server
-        texlab
-        typescript
-        ty
-
-        # formatters
-        black
-        ruff
-        nixpkgs-fmt
-        ocamlformat
-        ocamlPackages.ocamlformat-rpc-lib
-      ];
+      extraPackages = editorPackages;
     };
 
     helix = {
         enable = true;
+        extraPackages = editorPackages;
+        languages = {
+          language = [{
+            name = "python";
+            language-id = "python";
+            auto-format = true;
+            language-servers = ["ty" "ruff"];
+            file-types = ["py"];
+            comment-token = "#";
+            shebangs = ["python"];
+            roots = ["pyproject.toml" "setup.py" "poetry.lock" ".git" ".jj" ".venv/"];
+          }];
+        };
         settings = {
           theme = "gruvbox";
           editor = {
