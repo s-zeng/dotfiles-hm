@@ -1,7 +1,20 @@
-{ config, lib, pkgs, username, stateVersion, homeDirectory, nur, system, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  username,
+  stateVersion,
+  homeDirectory,
+  nur,
+  system,
+  ...
+}:
 
 let
-  nurNopkgs = import nur { pkgs = pkgs; nurpkgs = pkgs; };
+  nurNopkgs = import nur {
+    pkgs = pkgs;
+    nurpkgs = pkgs;
+  };
   allowUnfree = config.allowUnfree;
   useWayland = config.useWayland;
   thinkpad = config.thinkpad;
@@ -41,86 +54,112 @@ in
     stateVersion = stateVersion;
     username = username;
     homeDirectory = homeDirectory;
-    packages = with pkgs; [
-      ffmpeg
-      stow
-      dust
-      gopass
-      gopass-jsonapi
-      # binwalk
-      fastfetch
-      fzy
-      unzip
-      unrar
-      rlwrap
-      zip
-      mosh
-      todoist
-      wget
-      killall
-      graphviz
-      nix-search
-      zellij
-      (python3.withPackages (ps: with ps; [
-        requests
-        pynvim
-      ]))
-      claude-code
-      nodejs_24
-      gitui
-      imagemagick
-      gh
-      ty
-      ruff
-      rust-analyzer
-    ]
-    ++ (if graphical then [
-      # pulseaudioFull
-      slack
-      # webex
-      openconnect
-      # discord
-      nerd-fonts.jetbrains-mono
-      font-awesome
-      zathura
-      caprine-bin
-      liberation_ttf
-      geogebra
-      neovide
-      obsidian
-      youtube-music
-    ] ++ (if useWayland then [
-      grim
-      slurp
-      wl-clipboard
-      bemenu
-    ] else [
-    ]) else [ ])
-    ++ (if thinkpad then [
-      eog
-      usbutils
-      light
-      xclip
-      xmlstarlet
-      lxappearance
-      paprefs
-    ] else [ ])
-    ++ (if graphical && thinkpad then [
-        qFlipper
-        todoist-electron
-        fractal
-        libreoffice
-        pinentry-gtk2
-        citrix_workspace
-        chromium
-        pavucontrol
-        nemo
-        calibre
-        zoom
-    ] else if graphical then [
-        pinentry_mac
-    ] else [ pinentry ])
-    ;
+    packages =
+      with pkgs;
+      [
+        ffmpeg
+        stow
+        dust
+        gopass
+        gopass-jsonapi
+        # binwalk
+        fastfetch
+        fzy
+        unzip
+        unrar
+        rlwrap
+        zip
+        mosh
+        todoist
+        wget
+        killall
+        graphviz
+        nix-search
+        zellij
+        (python3.withPackages (
+          ps: with ps; [
+            requests
+            pynvim
+          ]
+        ))
+        claude-code
+        nodejs_24
+        gitui
+        imagemagick
+        gh
+        ty
+        ruff
+        rust-analyzer
+      ]
+      ++ (
+        if graphical then
+          [
+            # pulseaudioFull
+            slack
+            # webex
+            openconnect
+            # discord
+            nerd-fonts.jetbrains-mono
+            font-awesome
+            zathura
+            caprine-bin
+            liberation_ttf
+            geogebra
+            neovide
+            obsidian
+            youtube-music
+          ]
+          ++ (
+            if useWayland then
+              [
+                grim
+                slurp
+                wl-clipboard
+                bemenu
+              ]
+            else
+              [
+              ]
+          )
+        else
+          [ ]
+      )
+      ++ (
+        if thinkpad then
+          [
+            eog
+            usbutils
+            light
+            xclip
+            xmlstarlet
+            lxappearance
+            paprefs
+          ]
+        else
+          [ ]
+      )
+      ++ (
+        if graphical && thinkpad then
+          [
+            qFlipper
+            todoist-electron
+            fractal
+            libreoffice
+            pinentry-gtk2
+            citrix_workspace
+            chromium
+            pavucontrol
+            nemo
+            calibre
+            zoom
+          ]
+        else if graphical then
+          [
+            pinentry_mac
+          ]
+        else
+          [ pinentry ]
+      );
   };
 
   xdg.configFile.nvim = {
@@ -151,7 +190,6 @@ in
       enable = true;
       enableFishIntegration = true;
     };
-
 
     # ls replacement
     eza = {
@@ -254,189 +292,232 @@ in
     };
 
     helix = {
-        enable = true;
-        extraPackages = editorPackages;
-        languages = {
-          language = [{
+      enable = true;
+      extraPackages = editorPackages;
+      languages = {
+        language = [
+          {
             name = "python";
             language-id = "python";
             auto-format = true;
-            language-servers = ["ty" "ruff"];
-            file-types = ["py"];
+            language-servers = [
+              "ty"
+              "ruff"
+            ];
+            file-types = [ "py" ];
             comment-token = "#";
-            shebangs = ["python"];
-            roots = ["pyproject.toml" "setup.py" "poetry.lock" ".git" ".jj" ".venv/"];
-          }];
-        };
-        settings = {
-          theme = "gruvbox";
-          editor = {
-            line-number = "relative";
-            lsp.display-messages = true;
-          };
-          # keys.normal = {
-          #   space.space = "file_picker";
-          #   space.w = ":w";
-          #   space.q = ":q";
-          #   esc = [ "collapse_selection" "keep_primary_selection" ];
-          # };
-        };
-    };
-  } // (if graphical then {
-
-    wezterm = {
-      enable = true;
-      extraConfig = ''
-      return {
-        font = wezterm.font("JetBrains Mono"),
-        font_size = 13.0,
-        color_scheme = "GruvboxDark",
-        hide_tab_bar_if_only_one_tab = true,
-        -- default_prog = { "zsh", "--login", "-c", "tmux attach -t dev || tmux new -s dev" },
-        keys = {
-          {key="Enter", mods="SHIFT", action=wezterm.action{SendString="\x1b\r"}},
-        --   {key="n", mods="SHIFT|CTRL", action="ToggleFullScreen"},
-        }
-      }
-      '';
-    };
-  } else { });
-} // (if graphical && thinkpad then {
-  services.mako.enable = useWayland; # wayland notification daemon
-  mpv.enable = true; # media player
-  firefox =
-    {
-      enable = true;
-      package = pkgs.wrapFirefox pkgs.firefox-unwrapped {
-        extraPolicies = {
-          ExtensionSettings = { };
-        };
-      };
-      profiles.default = {
-        id = 0;
-        name = "Default";
-        isDefault = true;
-        extensions = with nurNopkgs.repos.rycee.firefox-addons; [
-          ublock-origin
-          vimium
-          gopass-bridge
-          addy_io
-          darkreader
+            shebangs = [ "python" ];
+            roots = [
+              "pyproject.toml"
+              "setup.py"
+              "poetry.lock"
+              ".git"
+              ".jj"
+              ".venv/"
+            ];
+          }
         ];
-        settings = {
-          "browser.theme.content-theme" = 0; # dark theme
-          "browser.theme.toolbar-theme" = 0; # dark theme
-          "findbar.modalHighlight" = true; # dims screen and animates during ctrl-f
-          "findbar.highlightAll" = true; # highlights all ctrl-f results
-          "browser.newtabpage.activity-stream.enabled" = false; # better new tab
-          "extensions.pocket.enabled" = false; # disable pocket
-          "browser.compactmode.show" = true;
-          "identity.fxaccounts.enabled" = false;
-        };
       };
-    };
-  i3status = {
-    enable = true;
-    enableDefault = false;
-    general = {
-      interval = 1;
-      colors = true;
-      color_good = "#b8bb26";
-      color_bad = "#fb4934";
-      color_degraded = "#fabd2f";
-    };
-    modules = {
-      "volume master" = {
-        position = 1;
-        settings = {
-          format = "%volume  ";
-          format_muted = " ";
-          device = "default";
-          mixer = "Master";
-          mixer_idx = 0;
+      settings = {
+        theme = "gruvbox";
+        editor = {
+          line-number = "relative";
+          lsp.display-messages = true;
         };
+        # keys.normal = {
+        #   space.space = "file_picker";
+        #   space.w = ":w";
+        #   space.q = ":q";
+        #   esc = [ "collapse_selection" "keep_primary_selection" ];
+        # };
       };
-      "wireless wlp2s0" = {
-        position = 2;
-        settings = {
-          format_up = "%quality  %essid %ip";
-          format_down = "";
-        };
-      };
-      "battery 0" = {
-        position = 3;
-        settings = {
-          format = "%status %percentage %consumption %remaining";
-          format_down = "";
-          last_full_capacity = true;
-          integer_battery_capacity = true;
-          low_threshold = 11;
-          threshold_type = "percentage";
-          hide_seconds = true;
-          status_chr = " ";
-          status_bat = " ";
-          status_unk = " ";
-          status_full = " ";
-        };
-      };
-      "tztime local" = {
-        position = 4;
-        settings = {
-          format = " %I:%M %p";
-        };
-      };
-    };
-  };
-} else { })
-  // (if graphical && useWayland then {
-
-  wayland.windowManager.sway =
-    {
-      enable = true;
-      wrapperFeatures.gtk = true;
-      config = {
-        modifier = "Mod4";
-        gaps = {
-          inner = 10;
-          outer = 0;
-          smartGaps = true;
-        };
-        input =
-          if thinkpad then {
-            "2:10:TPPS/2_Elan_TrackPoint".tap = "enabled";
-            "1739:0:Synaptics_TM3289-021".tap = "enabled";
-          } else { };
-        terminal = "kitty";
-        output = {
-          "*" = {
-            bg = "~/.config/nixpkgs/backgrounds/cozywindow.jpg fill";
-          };
-        };
-      };
-    };
-} else if thinkpad && graphical && !useWayland then {
-  xsession.windowManager.i3 = {
-    enable = true;
-    package = pkgs.i3-gaps; # TODO: remove when merger hits
-    config = {
-      terminal = "wezterm";
-      modifier = "Mod4";
-      window.hideEdgeBorders = "smart";
-      workspaceAutoBackAndForth = true;
-      gaps = {
-        inner = 10;
-        outer = 0;
-        smartGaps = true;
-      };
-      window.commands = [{ criteria = { title = "HearthstoneOverlay"; }; command = "sticky enable"; }];
-    };
-  };
-} else { })
-  // (if thinkpad then {
-    services.gpg-agent = {
-      enable = true;
-      pinentryFlavor = if graphical then "gtk2" else "tty";
-      enableFishIntegration = true;
     };
   }
-else { })
+  // (
+    if graphical then
+      {
+
+        wezterm = {
+          enable = true;
+          extraConfig = ''
+            return {
+              font = wezterm.font("JetBrains Mono"),
+              font_size = 13.0,
+              color_scheme = "GruvboxDark",
+              hide_tab_bar_if_only_one_tab = true,
+              -- default_prog = { "zsh", "--login", "-c", "tmux attach -t dev || tmux new -s dev" },
+              keys = {
+                {key="Enter", mods="SHIFT", action=wezterm.action{SendString="\x1b\r"}},
+              --   {key="n", mods="SHIFT|CTRL", action="ToggleFullScreen"},
+              }
+            }
+          '';
+        };
+      }
+    else
+      { }
+  );
+}
+// (
+  if graphical && thinkpad then
+    {
+      services.mako.enable = useWayland; # wayland notification daemon
+      mpv.enable = true; # media player
+      firefox = {
+        enable = true;
+        package = pkgs.wrapFirefox pkgs.firefox-unwrapped {
+          extraPolicies = {
+            ExtensionSettings = { };
+          };
+        };
+        profiles.default = {
+          id = 0;
+          name = "Default";
+          isDefault = true;
+          extensions = with nurNopkgs.repos.rycee.firefox-addons; [
+            ublock-origin
+            vimium
+            gopass-bridge
+            addy_io
+            darkreader
+          ];
+          settings = {
+            "browser.theme.content-theme" = 0; # dark theme
+            "browser.theme.toolbar-theme" = 0; # dark theme
+            "findbar.modalHighlight" = true; # dims screen and animates during ctrl-f
+            "findbar.highlightAll" = true; # highlights all ctrl-f results
+            "browser.newtabpage.activity-stream.enabled" = false; # better new tab
+            "extensions.pocket.enabled" = false; # disable pocket
+            "browser.compactmode.show" = true;
+            "identity.fxaccounts.enabled" = false;
+          };
+        };
+      };
+      i3status = {
+        enable = true;
+        enableDefault = false;
+        general = {
+          interval = 1;
+          colors = true;
+          color_good = "#b8bb26";
+          color_bad = "#fb4934";
+          color_degraded = "#fabd2f";
+        };
+        modules = {
+          "volume master" = {
+            position = 1;
+            settings = {
+              format = "%volume  ";
+              format_muted = " ";
+              device = "default";
+              mixer = "Master";
+              mixer_idx = 0;
+            };
+          };
+          "wireless wlp2s0" = {
+            position = 2;
+            settings = {
+              format_up = "%quality  %essid %ip";
+              format_down = "";
+            };
+          };
+          "battery 0" = {
+            position = 3;
+            settings = {
+              format = "%status %percentage %consumption %remaining";
+              format_down = "";
+              last_full_capacity = true;
+              integer_battery_capacity = true;
+              low_threshold = 11;
+              threshold_type = "percentage";
+              hide_seconds = true;
+              status_chr = " ";
+              status_bat = " ";
+              status_unk = " ";
+              status_full = " ";
+            };
+          };
+          "tztime local" = {
+            position = 4;
+            settings = {
+              format = " %I:%M %p";
+            };
+          };
+        };
+      };
+    }
+  else
+    { }
+)
+// (
+  if graphical && useWayland then
+    {
+
+      wayland.windowManager.sway = {
+        enable = true;
+        wrapperFeatures.gtk = true;
+        config = {
+          modifier = "Mod4";
+          gaps = {
+            inner = 10;
+            outer = 0;
+            smartGaps = true;
+          };
+          input =
+            if thinkpad then
+              {
+                "2:10:TPPS/2_Elan_TrackPoint".tap = "enabled";
+                "1739:0:Synaptics_TM3289-021".tap = "enabled";
+              }
+            else
+              { };
+          terminal = "kitty";
+          output = {
+            "*" = {
+              bg = "~/.config/nixpkgs/backgrounds/cozywindow.jpg fill";
+            };
+          };
+        };
+      };
+    }
+  else if thinkpad && graphical && !useWayland then
+    {
+      xsession.windowManager.i3 = {
+        enable = true;
+        package = pkgs.i3-gaps; # TODO: remove when merger hits
+        config = {
+          terminal = "wezterm";
+          modifier = "Mod4";
+          window.hideEdgeBorders = "smart";
+          workspaceAutoBackAndForth = true;
+          gaps = {
+            inner = 10;
+            outer = 0;
+            smartGaps = true;
+          };
+          window.commands = [
+            {
+              criteria = {
+                title = "HearthstoneOverlay";
+              };
+              command = "sticky enable";
+            }
+          ];
+        };
+      };
+    }
+  else
+    { }
+)
+// (
+  if thinkpad then
+    {
+      services.gpg-agent = {
+        enable = true;
+        pinentryFlavor = if graphical then "gtk2" else "tty";
+        enableFishIntegration = true;
+      };
+    }
+  else
+    { }
+)
