@@ -90,7 +90,6 @@ in
         ty
         ruff
         rust-analyzer
-        jujutsu
       ]
       ++ (
         if graphical then
@@ -235,6 +234,17 @@ in
       signing = {
         key = "973C9963CA528797";
         signByDefault = true;
+      };
+    };
+
+    jujutsu = {
+      enable = true;
+      settings = {
+        user.name = "Simon Zeng";
+        user.email = "contact@simonzeng.com";
+        signing.behavior = "own";
+        signing.backend = "gpg";
+        signing.key = "973C9963CA528797";
       };
     };
 
