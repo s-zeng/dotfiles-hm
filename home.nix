@@ -90,6 +90,7 @@ in
         ty
         ruff
         rust-analyzer
+        jujutsu
       ]
       ++ (
         if graphical then
