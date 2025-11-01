@@ -7,6 +7,7 @@
   homeDirectory,
   nur,
   system,
+  pkgs-stable,
   ...
 }:
 
@@ -84,7 +85,6 @@ in
         ))
         claude-code
         nodejs_24
-        gitui
         imagemagick
         gh
         ty
@@ -224,10 +224,9 @@ in
 
     git = {
       enable = true;
-      package = pkgs.gitAndTools.gitFull;
-      userName = "Simon Zeng";
-      userEmail = "contact@simonzeng.com";
-      extraConfig = {
+      settings = {
+        user.name = "Simon Zeng";
+        user.email = "contact@simonzeng.com";
         core.editor = "hx";
         credential.helper = "store";
       };
@@ -235,6 +234,11 @@ in
         key = "973C9963CA528797";
         signByDefault = true;
       };
+    };
+
+    gitui = {
+      enable = true;
+      package = pkgs-stable.gitui; # workaround 20251101 https://github.com/NixOS/nixpkgs/issues/450861 
     };
 
     jujutsu = {

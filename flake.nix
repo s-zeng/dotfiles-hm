@@ -9,9 +9,10 @@
     };
     nur.url = "github:nix-community/NUR";
     claude-code.url = "github:sadjow/claude-code-nix";
+    nixpkgs-stable.url = "nixpkgs/nixos-24.11"; # workaround for gitui 20251101
   };
 
-  outputs = { self, nixpkgs, home-manager, nur, claude-code, ... }:
+  outputs = { self, nixpkgs, home-manager, nur, claude-code, nixpkgs-stable, ... }:
     let
       # Values you should modify
       username = "simonzeng"; # $USER
@@ -32,11 +33,12 @@
 
         config = {
           allowUnfree = config.allowUnfree;
-          permittedInsecurePackages = [
-            "electron-21.4.0"
-          ];
         };
         overlays = [ claude-code.overlays.default ];
+      };
+
+      pkgs-stable = import nixpkgs-stable {
+        inherit system;
       };
 
       lib = home-manager.lib;
@@ -45,7 +47,7 @@
       homeDirectory = "/${homeDirPrefix}/${username}";
 
       home = (import ./home.nix {
-        inherit homeDirectory config lib pkgs system username stateVersion nur;
+        inherit homeDirectory config lib pkgs system username stateVersion nur pkgs-stable;
       });
     in
     {
