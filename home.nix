@@ -90,6 +90,7 @@ in
         ty
         ruff
         rust-analyzer
+        (writeScriptBin "vimtabdiff.py" (builtins.readFile ./bin/vimtabdiff.py))
       ]
       ++ (
         if graphical then
@@ -182,6 +183,7 @@ in
     fish.enable = true; # shell replacement
     bottom.enable = true; # htop replacement
     bat.enable = true;
+    difftastic.enable = true;
     ripgrep.enable = true;
     fd.enable = true;
     rclone.enable = true;
@@ -249,7 +251,12 @@ in
         signing.behavior = "own";
         signing.backend = "gpg";
         signing.key = "973C9963CA528797";
+        ui.diff-formatter = "difft";
+        ui.diff-editor = "vimtabdiff.py";
         ui.pager = ":builtin";
+        merge-tools.vimdiff= {
+          diff-invocation-mode = "file-by-file";
+        };
       };
     };
 
