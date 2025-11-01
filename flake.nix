@@ -10,9 +10,10 @@
     nur.url = "github:nix-community/NUR";
     claude-code.url = "github:sadjow/claude-code-nix";
     nixpkgs-stable.url = "nixpkgs/nixos-24.11"; # workaround for gitui 20251101
+    copyparty.url = "github:9001/copyparty";
   };
 
-  outputs = { self, nixpkgs, home-manager, nur, claude-code, nixpkgs-stable, ... }:
+  outputs = { self, nixpkgs, home-manager, nur, claude-code, nixpkgs-stable, copyparty, ... }:
     let
       # Values you should modify
       username = "simonzeng"; # $USER
@@ -34,7 +35,7 @@
         config = {
           allowUnfree = config.allowUnfree;
         };
-        overlays = [ claude-code.overlays.default ];
+        overlays = [ claude-code.overlays.default copyparty.overlays.default ];
       };
 
       pkgs-stable = import nixpkgs-stable {

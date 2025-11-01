@@ -91,6 +91,7 @@ in
         ruff
         rust-analyzer
         (writeScriptBin "vimtabdiff.py" (builtins.readFile ./bin/vimtabdiff.py))
+        copyparty
       ]
       ++ (
         if graphical then
