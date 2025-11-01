@@ -245,6 +245,7 @@ in
         signing.behavior = "own";
         signing.backend = "gpg";
         signing.key = "973C9963CA528797";
+        ui.pager = ":builtin";
       };
     };
 
