@@ -228,7 +228,7 @@ in
       userName = "Simon Zeng";
       userEmail = "contact@simonzeng.com";
       extraConfig = {
-        core.editor = "nvim";
+        core.editor = "hx";
         credential.helper = "store";
       };
       signing = {
@@ -254,7 +254,7 @@ in
       vimAlias = true;
       vimdiffAlias = true;
       withPython3 = true;
-      defaultEditor = true;
+      defaultEditor = false;
 
       plugins = with pkgs.vimPlugins; [
         # the goat
@@ -305,6 +305,7 @@ in
     helix = {
       enable = true;
       extraPackages = editorPackages;
+      defaultEditor = true;
       languages = {
         language = [
           {
