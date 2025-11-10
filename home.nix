@@ -92,6 +92,7 @@ in
         rust-analyzer
         (writeScriptBin "vimtabdiff.py" (builtins.readFile ./bin/vimtabdiff.py))
         copyparty
+        jjui
       ]
       ++ (
         if graphical then
@@ -253,9 +254,9 @@ in
         signing.backend = "gpg";
         signing.key = "973C9963CA528797";
         ui.diff-formatter = "difft";
-        ui.diff-editor = "vimtabdiff.py";
+        ui.diff-editor = ["nvim" "-c" "DiffEditor $left $right $output"];
         ui.pager = ":builtin";
-        merge-tools.vimdiff= {
+        merge-tools.vimdiff = {
           diff-invocation-mode = "file-by-file";
         };
       };
@@ -309,6 +310,8 @@ in
         # vim-sexp
         # vim-sexp-mappings-for-regular-people
         vimtex
+
+        hunk-nvim
       ];
 
       # only loaded when neovim is launched!

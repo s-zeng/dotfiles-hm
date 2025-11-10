@@ -16,3 +16,4 @@ vim.cmd.colorscheme "gruvbox"
 require('config/maps')
 
 require("neogit").setup()
+require("hunk").setup()
