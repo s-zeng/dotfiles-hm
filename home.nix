@@ -212,12 +212,54 @@ in
       enable = true;
       enableFishIntegration = true;
       settings = {
+        # Add custom modules to the format
+        format = "$username$hostname$localip$shlvl$singularity$kubernetes$directory$vcsh$fossil_branch$fossil_metrics\${custom.git_branch}\${custom.git_commit}$git_state\${custom.git_metrics}\${custom.git_status}$hg_branch$pijul_channel$docker_context$package$c$cmake$cobol$daml$dart$deno$dotnet$elixir$elm$erlang$fennel$golang$guix_shell$haskell$haxe$hg_branch$java$julia$kotlin$lua$nodejs$ocaml$opa$perl$php$pulumi$purescript$python$raku$ruby$rust$scala$solidity$swift$terraform$vlang$vagrant$zig$buf$nix_shell$conda$meson$spack$memory_usage$aws$gcloud$openstack$azure$env_var$crystal\${custom.jj}$sudo$cmd_duration$line_break$jobs$battery$time$status$os$container$shell$character";
+
         character = {
           success_symbol = "[>>=](bold green)";
           error_symbol = "[_|_](bold red)";
           vicmd_symbol = "[<*>](bold green)";
         };
         python.detect_extensions = [ ];
+
+        # replace builtin git modules with ones that detect jj
+        git_status.disabled = true;
+        git_commit.disabled = true;
+        git_metrics.disabled = true;
+        git_branch.disabled = true;
+
+        custom = {
+          jj = {
+            description = "The current jj status";
+            when = "jj --ignore-working-copy root";
+            symbol = "🥋 ";
+            command = "jj log --revisions @ --no-graph --ignore-working-copy --color always --limit 1 --template 'separate(\" \", change_id.shortest(4), bookmarks, \"|\", concat(if(conflict, \"💥\"), if(divergent, \"🚧\"), if(hidden, \"👻\"), if(immutable, \"🔒\")), raw_escape_sequence(\"\\x1b[1;32m\") ++ if(empty, \"(empty)\"), raw_escape_sequence(\"\\x1b[1;32m\") ++ coalesce(truncate_end(29, description.first_line(), \"…\"), \"(no description set)\") ++ raw_escape_sequence(\"\\x1b[0m\"))'";
+          };
+          git_status = {
+            when = "! jj --ignore-working-copy root";
+            command = "starship module git_status";
+            style = "";
+            description = "Only show git_status if we're not in a jj repo";
+          };
+          git_commit = {
+            when = "! jj --ignore-working-copy root";
+            command = "starship module git_commit";
+            style = "";
+            description = "Only show git_commit if we're not in a jj repo";
+          };
+          git_metrics = {
+            when = "! jj --ignore-working-copy root";
+            command = "starship module git_metrics";
+            style = "";
+            description = "Only show git_metrics if we're not in a jj repo";
+          };
+          git_branch = {
+            when = "! jj --ignore-working-copy root";
+            command = "starship module git_branch";
+            style = "";
+            description = "Only show git_branch if we're not in a jj repo";
+          };
+        };
       };
     };
 
