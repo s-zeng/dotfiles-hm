@@ -93,6 +93,7 @@ in
         (writeScriptBin "vimtabdiff.py" (builtins.readFile ./bin/vimtabdiff.py))
         copyparty
         jjui
+        lazyjj
       ]
       ++ (
         if graphical then
