@@ -285,7 +285,7 @@ in
 
     gitui = {
       enable = true;
-      package = pkgs-stable.gitui; # workaround 20251101 https://github.com/NixOS/nixpkgs/issues/450861 
+      package = pkgs-stable.gitui; # workaround 20251101 https://github.com/NixOS/nixpkgs/issues/450861
     };
 
     jujutsu = {
@@ -297,7 +297,11 @@ in
         signing.backend = "gpg";
         signing.key = "973C9963CA528797";
         ui.diff-formatter = "difft";
-        ui.diff-editor = ["nvim" "-c" "DiffEditor $left $right $output"];
+        ui.diff-editor = [
+          "nvim"
+          "-c"
+          "DiffEditor $left $right $output"
+        ];
         ui.merge-editor = "diffconflicts";
         ui.pager = ":builtin";
         merge-tools.vimdiff = {
@@ -305,7 +309,16 @@ in
         };
         merge-tools.diffconflicts = {
           program = "nvim";
-          merge-args =  [ "-c" "let g:jj_diffconflicts_marker_length=$marker_length" "-c" "JJDiffConflicts!" "$output" "$base" "$left" "$right" ];
+          merge-args = [
+            "-c"
+            "let g:jj_diffconflicts_marker_length=$marker_length"
+            "-c"
+            "JJDiffConflicts!"
+            "$output"
+            "$base"
+            "$left"
+            "$right"
+          ];
           merge-tool-edits-conflict-markers = true;
         };
       };
