@@ -178,3 +178,11 @@ require('mini.snippets').setup({
     gen_loader.from_lang(),
   },
 })
+
+-- for plugins not on nix yet
+require('mini.deps').setup()
+
+MiniDeps.add({
+  source = 'rafikdraoui/jj-diffconflicts',
+})
+
