@@ -561,7 +561,7 @@ in
               }
             else
               { };
-          terminal = "kitty";
+          terminal = "wezterm";
           output = {
             "*" = {
               bg = "~/.config/nixpkgs/backgrounds/cozywindow.jpg fill";
