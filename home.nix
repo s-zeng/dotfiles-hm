@@ -324,6 +324,11 @@ in
       };
     };
 
+    yazi = {
+      enable = true;
+      enableFishIntegration = true;
+    };
+
     neovim = {
       enable = true;
       viAlias = true;
@@ -443,6 +448,13 @@ in
             }
           '';
         };
+
+        ghostty = {
+            enable = true;
+            package = pkgs.ghostty-bin;
+            enableFishIntegration = true;
+            settings.theme = "Gruvbox Dark";
+        };
       }
     else
       { }
@@ -561,7 +573,7 @@ in
               }
             else
               { };
-          terminal = "wezterm";
+          terminal = "ghostty";
           output = {
             "*" = {
               bg = "~/.config/nixpkgs/backgrounds/cozywindow.jpg fill";
