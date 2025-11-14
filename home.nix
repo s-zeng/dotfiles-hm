@@ -308,6 +308,7 @@ in
         merge-tools.vimdiff = {
           diff-invocation-mode = "file-by-file";
         };
+        revset-aliases."immutable_heads()" = "builtin_immutable_heads() | (trunk().. & ~mine()) | bookmarks(rel_) | bookmarks(prod_)";
         merge-tools.diffconflicts = {
           program = "nvim";
           merge-args = [
