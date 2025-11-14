@@ -309,6 +309,7 @@ in
           diff-invocation-mode = "file-by-file";
         };
         revset-aliases."immutable_heads()" = "builtin_immutable_heads() | (trunk().. & ~mine()) | bookmarks(rel_) | bookmarks(prod_)";
+        aliases.tug = ["bookmark" "move" "--from" "heads(::@- & bookmarks())" "--to" "@-"];
         merge-tools.diffconflicts = {
           program = "nvim";
           merge-args = [
