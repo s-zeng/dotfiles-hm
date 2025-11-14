@@ -123,7 +123,7 @@ MiniPick.registry.registry = function()
 end
 vim.keymap.set('n', '<leader>q/', MiniExtra.pickers.git_hunks, { desc = "Search hunks" })
 vim.keymap.set('n', '<leader>G/', MiniExtra.pickers.git_hunks, { desc = "Search hunks" })
-vim.keymap.set('n', '<leader>o', MiniPick.builtin.files, { desc = "Open file (fd)" })
+vim.keymap.set('n', '<leader>f', MiniPick.builtin.files, { desc = "Open file (fd)" })
 vim.keymap.set('n', '<leader>g', MiniPick.builtin.grep_live, { desc = "Ripgrep" })
 vim.keymap.set('n', '<leader>h', MiniPick.builtin.help, { desc = "Vim help" })
 vim.keymap.set('n', '<leader><leader>', MiniPick.builtin.resume, { desc = "Resume last picker" })
