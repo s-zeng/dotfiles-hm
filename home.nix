@@ -86,6 +86,7 @@ in
         claude-code
         gemini-cli
         codex
+        asciinema
         nodejs_24
         imagemagick
         gh
