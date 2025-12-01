@@ -84,6 +84,8 @@ in
           ]
         ))
         claude-code
+        gemini-cli
+        codex
         nodejs_24
         imagemagick
         gh
