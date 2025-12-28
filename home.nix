@@ -287,10 +287,7 @@ in
       };
     };
 
-    gitui = {
-      enable = true;
-      package = pkgs-stable.gitui; # workaround 20251101 https://github.com/NixOS/nixpkgs/issues/450861
-    };
+    gitui.enable = true;
 
     jujutsu = {
       enable = true;
@@ -311,7 +308,7 @@ in
         merge-tools.vimdiff = {
           diff-invocation-mode = "file-by-file";
         };
-        revset-aliases."immutable_heads()" = "builtin_immutable_heads() | (trunk().. & ~mine()) | bookmarks(rel_) | bookmarks(prod_)";
+        revset-aliases."immutable_heads()" = "builtin_immutable_heads() | (trunk().. & ~mine()) | bookmarks(glob:rel_*) | bookmarks(glob:prod_*)";
         aliases.tug = ["bookmark" "move" "--from" "heads(::@- & bookmarks())" "--to" "@-"];
         merge-tools.diffconflicts = {
           program = "nvim";
