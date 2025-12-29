@@ -81,6 +81,7 @@ in
           ps: with ps; [
             requests
             pynvim
+            polars
           ]
         ))
         claude-code
