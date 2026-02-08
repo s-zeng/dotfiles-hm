@@ -90,6 +90,7 @@ in
         asciinema
         nodejs_24
         imagemagick
+        poppler-utils
         gh
         ty
         ruff
