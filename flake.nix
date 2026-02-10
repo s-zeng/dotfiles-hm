@@ -11,9 +11,10 @@
     claude-code.url = "github:sadjow/claude-code-nix";
     nixpkgs-stable.url = "nixpkgs/nixos-24.11"; # workaround for gitui 20251101
     copyparty.url = "github:9001/copyparty";
+    codex-cli-nix.url = "github:sadjow/codex-cli-nix";
   };
 
-  outputs = { self, nixpkgs, home-manager, nur, claude-code, nixpkgs-stable, copyparty, ... }:
+  outputs = { self, nixpkgs, home-manager, nur, claude-code, codex-cli-nix, nixpkgs-stable, copyparty, ... }:
     let
       # Values you should modify
       username = "simonzeng"; # $USER
@@ -48,7 +49,7 @@
       homeDirectory = "/${homeDirPrefix}/${username}";
 
       home = (import ./home.nix {
-        inherit homeDirectory config lib pkgs system username stateVersion nur pkgs-stable;
+        inherit homeDirectory config lib pkgs system username stateVersion nur pkgs-stable codex-cli-nix;
       });
     in
     {

@@ -8,6 +8,7 @@
   nur,
   system,
   pkgs-stable,
+  codex-cli-nix,
   ...
 }:
 
@@ -86,7 +87,7 @@ in
         ))
         claude-code
         gemini-cli
-        codex
+        codex-cli-nix.packages.${pkgs.system}.default
         asciinema
         nodejs_24
         imagemagick
