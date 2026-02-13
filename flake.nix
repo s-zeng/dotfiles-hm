@@ -17,19 +17,31 @@
 
   outputs = { self, nixpkgs, home-manager, nur, claude-code, codex-cli-nix, nixpkgs-stable, copyparty, nvim-treesitter-main, ... }:
     let
-      # Values you should modify
-      username = "simonzeng"; # $USER
-      system = "aarch64-darwin";  # x86_64-linux, aarch64-multiplatform, etc.
-      stateVersion = "25.05";     # See https://nixos.org/manual/nixpkgs/stable for most recent
-
-      config =
-        # mega ugly copy paste of system/config.nix cause idk how to import this
+      localPath = ./local.nix;
+      local = if builtins.pathExists localPath then import localPath else throw ''
+        Missing local configuration at ./local.nix.
+        Create ./local.nix with:
         {
-          useWayland = false;
-          thinkpad = false;
-          graphical = true;
-          allowUnfree = true;
-        };
+          username = "your-username";
+          system = "aarch64-darwin";
+          config = {
+            useWayland = false;
+            thinkpad = false;
+            graphical = true;
+            allowUnfree = true;
+          };
+        }
+      '';
+
+      username = if builtins.isString (local.username or null) then local.username else throw "Invalid ./local.nix: `username` must be a string.";
+      system = if builtins.isString (local.system or null) then local.system else throw "Invalid ./local.nix: `system` must be a string.";
+      config = if builtins.isAttrs (local.config or null) then local.config else throw "Invalid ./local.nix: `config` must be an attribute set.";
+      _validateAllowUnfree = if builtins.isBool (config.allowUnfree or null) then null else throw "Invalid ./local.nix: `config.allowUnfree` must be a bool.";
+      _validateUseWayland = if builtins.isBool (config.useWayland or null) then null else throw "Invalid ./local.nix: `config.useWayland` must be a bool.";
+      _validateThinkpad = if builtins.isBool (config.thinkpad or null) then null else throw "Invalid ./local.nix: `config.thinkpad` must be a bool.";
+      _validateGraphical = if builtins.isBool (config.graphical or null) then null else throw "Invalid ./local.nix: `config.graphical` must be a bool.";
+
+      stateVersion = "25.05";     # See https://nixos.org/manual/nixpkgs/stable for most recent
 
       pkgs = import nixpkgs {
         inherit system;
