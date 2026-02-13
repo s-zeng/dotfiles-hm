@@ -169,6 +169,7 @@ in
           ]
         else
           [ pinentry ]
+          [ pinentry-curses ]
       );
   };
 
