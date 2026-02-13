@@ -3,6 +3,8 @@
   lib,
   pkgs,
   username,
+  name,
+  email,
   stateVersion,
   homeDirectory,
   nur,
@@ -56,6 +58,10 @@ in
     stateVersion = stateVersion;
     username = username;
     homeDirectory = homeDirectory;
+    sessionVariables = {
+      COLORTERM = "truecolor";
+      TERM = "xterm-256color";
+    };
     packages =
       with pkgs;
       [
@@ -168,7 +174,6 @@ in
             pinentry_mac
           ]
         else
-          [ pinentry ]
           [ pinentry-curses ]
       );
   };
@@ -280,14 +285,10 @@ in
     git = {
       enable = true;
       settings = {
-        user.name = "Simon Zeng";
-        user.email = "contact@simonzeng.com";
+        user.name = name;
+        user.email = email;
         core.editor = "hx";
         credential.helper = "store";
-      };
-      signing = {
-        key = "973C9963CA528797";
-        signByDefault = true;
       };
     };
 
@@ -296,11 +297,8 @@ in
     jujutsu = {
       enable = true;
       settings = {
-        user.name = "Simon Zeng";
-        user.email = "contact@simonzeng.com";
-        signing.behavior = "own";
-        signing.backend = "gpg";
-        signing.key = "973C9963CA528797";
+        user.name = name;
+        user.email = email;
         ui.diff-formatter = "difft";
         ui.diff-editor = [
           "nvim"

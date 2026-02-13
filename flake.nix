@@ -18,11 +18,15 @@
   outputs = { self, nixpkgs, home-manager, nur, claude-code, codex-cli-nix, nixpkgs-stable, copyparty, nvim-treesitter-main, ... }:
     let
       localPath = ./local.nix;
-      local = if builtins.pathExists localPath then import localPath else throw ''
+      pwd = builtins.getEnv "PWD";
+      impureLocalPath = "${pwd}/local.nix";
+      local = if builtins.pathExists localPath then import localPath else if pwd != "" && builtins.pathExists impureLocalPath then import impureLocalPath else throw ''
         Missing local configuration at ./local.nix.
         Create ./local.nix with:
         {
           username = "your-username";
+          name = "Your Name";
+          email = "you@example.com";
           system = "aarch64-darwin";
           config = {
             useWayland = false;
@@ -31,9 +35,13 @@
             allowUnfree = true;
           };
         }
+
+        Note: if `local.nix` is gitignored, flake evaluation will not see it unless run with `--impure`.
       '';
 
       username = if builtins.isString (local.username or null) then local.username else throw "Invalid ./local.nix: `username` must be a string.";
+      name = if builtins.isString (local.name or null) then local.name else throw "Invalid ./local.nix: `name` must be a string.";
+      email = if builtins.isString (local.email or null) then local.email else throw "Invalid ./local.nix: `email` must be a string.";
       system = if builtins.isString (local.system or null) then local.system else throw "Invalid ./local.nix: `system` must be a string.";
       config = if builtins.isAttrs (local.config or null) then local.config else throw "Invalid ./local.nix: `config` must be an attribute set.";
       _validateAllowUnfree = if builtins.isBool (config.allowUnfree or null) then null else throw "Invalid ./local.nix: `config.allowUnfree` must be a bool.";
@@ -81,7 +89,7 @@
       homeDirectory = "/${homeDirPrefix}/${username}";
 
       home = (import ./home.nix {
-        inherit homeDirectory config lib pkgs system username stateVersion nur pkgs-stable codex-cli-nix;
+        inherit homeDirectory config lib pkgs system username name email stateVersion nur pkgs-stable codex-cli-nix;
       });
     in
     {

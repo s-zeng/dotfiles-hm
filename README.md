@@ -14,6 +14,8 @@ repo](https://github.com/s-zeng/dotfiles)
    ```nix
    {
      username = "your-username";
+     name = "Your Name";
+     email = "you@example.com";
      system = "aarch64-darwin"; # or "x86_64-linux"
      config = {
        useWayland = false;
@@ -23,4 +25,4 @@ repo](https://github.com/s-zeng/dotfiles)
      };
    }
    ```
-4. Run `home-manager switch`
+4. Run `home-manager switch --impure`
