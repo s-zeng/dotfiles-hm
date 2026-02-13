@@ -372,7 +372,7 @@ in
         nvim-treesitter-context
         nvim-treesitter-endwise
         nvim-treesitter-textobjects
-        nvim-treesitter.withAllGrammars
+        nvim-treesitter
         rainbow-delimiters-nvim
         vista-vim
 

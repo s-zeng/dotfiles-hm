@@ -12,9 +12,10 @@
     nixpkgs-stable.url = "nixpkgs/nixos-24.11"; # workaround for gitui 20251101
     copyparty.url = "github:9001/copyparty";
     codex-cli-nix.url = "github:sadjow/codex-cli-nix";
+    nvim-treesitter-main.url = "github:iofq/nvim-treesitter-main";
   };
 
-  outputs = { self, nixpkgs, home-manager, nur, claude-code, codex-cli-nix, nixpkgs-stable, copyparty, ... }:
+  outputs = { self, nixpkgs, home-manager, nur, claude-code, codex-cli-nix, nixpkgs-stable, copyparty, nvim-treesitter-main, ... }:
     let
       # Values you should modify
       username = "simonzeng"; # $USER
@@ -36,7 +37,26 @@
         config = {
           allowUnfree = config.allowUnfree;
         };
-        overlays = [ claude-code.overlays.default copyparty.overlays.default ];
+        overlays = [
+          claude-code.overlays.default
+          copyparty.overlays.default
+          nvim-treesitter-main.overlays.default
+          (f: p: {
+            vimPlugins = p.vimPlugins.extend (vf: vp: {
+              nvim-treesitter = vp.nvim-treesitter.withAllGrammars;
+
+              nvim-treesitter-context = vp.nvim-treesitter-context.overrideAttrs (old: {
+                dependencies = (old.dependencies or [ ]) ++ [ vf.nvim-treesitter ];
+              });
+              nvim-treesitter-endwise = vp.nvim-treesitter-endwise.overrideAttrs (old: {
+                dependencies = (old.dependencies or [ ]) ++ [ vf.nvim-treesitter ];
+              });
+              nvim-treesitter-textobjects = vp.nvim-treesitter-textobjects.overrideAttrs (old: {
+                dependencies = (old.dependencies or [ ]) ++ [ vf.nvim-treesitter ];
+              });
+            });
+          })
+        ];
       };
 
       pkgs-stable = import nixpkgs-stable {
