@@ -427,6 +427,7 @@ in
         theme = "gruvbox";
         editor = {
           line-number = "relative";
+          true-color = true;
           lsp.display-messages = true;
         };
         # keys.normal = {
