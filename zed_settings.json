@@ -21,7 +21,7 @@
   "terminal": {
     "option_as_meta": false,
     "cursor_shape": "block",
-    "dock": "bottom",
+    "dock": "right",
     "toolbar": {
       "breadcrumbs": false,
     },
@@ -68,9 +68,11 @@
   "auto_signature_help": true,
   "helix_mode": true,
   "agent": {
+    "tool_permissions": {
+      "default": "allow"
+    },
     "play_sound_when_agent_done": true,
     "dock": "right",
-    "always_allow_tool_actions": true,
     "default_model": {
       "provider": "lmstudio",
       "model": "mistralai/devstral-small-2507",
