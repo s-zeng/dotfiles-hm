@@ -428,12 +428,21 @@ in
           true-color = true;
           lsp.display-messages = true;
         };
-        # keys.normal = {
-        #   space.space = "file_picker";
-        #   space.w = ":w";
-        #   space.q = ":q";
-        #   esc = [ "collapse_selection" "keep_primary_selection" ];
-        # };
+        keys.normal.space = {
+          B = [
+            '':sh jj --ignore-working-copy file annotate %{buffer_name} \
+            -T 'if(self.line_number() == %{cursor_line}, \
+            concat(self.commit().change_id().shortest(), \
+            " ", self.commit().commit_id().shortest(), \
+            " ", self.commit().author().timestamp().format("%%Y-%%m-%%d"), \
+            " ", self.commit().author(), "\n", \
+            self.commit().description()))''
+          ];
+          q = '':sh echo "$(jj --ignore-working-copy git remote list | awk '{print $2}')/commit/$(jj --ignore-working-copy file annotate %{buffer_name} -T 'if(self.line_number() == %{cursor_line}, self.commit().commit_id())')" | xclip -selection clipboard'';
+          Q = '':sh echo "$(jj --ignore-working-copy git remote list | awk '{print $2}')/blob/$(jj --ignore-working-copy file annotate -r @ %{buffer_name} -T 'if(self.line_number() == %{cursor_line}, concat(self.commit().commit_id(), "/%{buffer_name}#L", self.original_line_number()))')" | xclip -selection clipboard'';
+          l = '':sh echo "$(jj --ignore-working-copy git remote list | awk '{print $2}')/blob/master/%{buffer_name}" | xclip -selection clipboard'';
+          L = '':sh echo "$(jj --ignore-working-copy git remote list | awk '{print $2}')/blob/$(jj --ignore-working-copy log -r 'latest(heads(::@ & ::trunk()))' -T 'self.commit_id()' --no-graph)/%{buffer_name}#L$(jj --ignore-working-copy file annotate %{buffer_name} -T 'if(self.line_number() == %{cursor_line}, self.original_line_number())')" | xclip -selection clipboard'';
+        };
       };
     };
   }
