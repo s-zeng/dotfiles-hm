@@ -8,7 +8,6 @@
   stateVersion,
   homeDirectory,
   nur,
-  system,
   pkgs-stable,
   codex-cli-nix,
   ...
@@ -23,8 +22,9 @@ let
   useWayland = config.useWayland;
   thinkpad = config.thinkpad;
   graphical = config.graphical;
+  hostSystem = pkgs.stdenv.hostPlatform.system;
   clipboardCmd =
-    if builtins.match ".*darwin$" system != null then "pbcopy" else "xclip -selection clipboard";
+    if builtins.match ".*darwin$" hostSystem != null then "pbcopy" else "xclip -selection clipboard";
   editorPackages = with pkgs; [
     # lsp
     clojure-lsp
@@ -95,7 +95,7 @@ in
         ))
         claude-code
         gemini-cli
-        codex-cli-nix.packages.${pkgs.system}.default
+        codex-cli-nix.packages.${hostSystem}.default
         asciinema
         nodejs_24
         imagemagick
@@ -125,7 +125,7 @@ in
             geogebra
             neovide
             obsidian
-            youtube-music
+            pear-desktop
           ]
           ++ (
             if useWayland then
@@ -193,6 +193,9 @@ in
   programs = {
     # Let Home Manager install and manage itself.
     home-manager.enable = true;
+    man = pkgs.lib.mkIf pkgs.stdenv.hostPlatform.isDarwin {
+      generateCaches = false;
+    };
 
     # no config programs
     tealdeer.enable = true; # tldr
