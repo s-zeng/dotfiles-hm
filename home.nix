@@ -36,10 +36,10 @@ let
     kotlin-language-server
     metals
     nil
-    nodePackages.bash-language-server
-    nodePackages.typescript-language-server
-    nodePackages.vscode-langservers-extracted
-    nodePackages.yaml-language-server
+    bash-language-server
+    typescript-language-server
+    vscode-langservers-extracted
+    yaml-language-server
     ocamlPackages.ocaml-lsp
     pyright
     statix
@@ -109,6 +109,7 @@ in
         jjui
         lazyjj
         weechat
+        jq
       ]
       ++ (
         if graphical then
