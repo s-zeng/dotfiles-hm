@@ -108,6 +108,7 @@ in
         copyparty
         jjui
         lazyjj
+        weechat
       ]
       ++ (
         if graphical then
