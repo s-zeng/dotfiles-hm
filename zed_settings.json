@@ -68,6 +68,7 @@
   "auto_signature_help": true,
   "helix_mode": true,
   "agent": {
+    "default_profile": "ask",
     "tool_permissions": {
       "default": "allow"
     },
@@ -75,7 +76,7 @@
     "dock": "right",
     "default_model": {
       "provider": "lmstudio",
-      "model": "mistralai/devstral-small-2507",
+      "model": "google/gemma-4-26b-a4b",
     },
   },
   "vim_mode": true,

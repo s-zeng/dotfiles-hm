@@ -110,6 +110,8 @@ in
         lazyjj
         weechat
         jq
+        llama-cpp
+        opencode
       ]
       ++ (
         if graphical then
