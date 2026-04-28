@@ -1,5 +1,15 @@
 {
+  "outline_panel": {
+    "dock": "left"
+  },
+  "collaboration_panel": {
+    "dock": "left"
+  },
+  "git_panel": {
+    "dock": "left"
+  },
   "project_panel": {
+    "dock": "left",
     "hide_root": true,
     "hide_gitignore": false
   },
@@ -76,7 +86,7 @@
     "dock": "right",
     "default_model": {
       "provider": "lmstudio",
-      "model": "google/gemma-4-26b-a4b",
+      "model": "qwen3.6-35b-a3b",
     },
   },
   "vim_mode": true,

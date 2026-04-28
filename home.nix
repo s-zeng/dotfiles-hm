@@ -72,7 +72,7 @@ in
         dust
         gopass
         gopass-jsonapi
-        # binwalk
+        binwalk
         fastfetch
         fzy
         unzip
@@ -116,20 +116,10 @@ in
       ++ (
         if graphical then
           [
-            # pulseaudioFull
-            slack
-            # webex
-            openconnect
-            # discord
             nerd-fonts.jetbrains-mono
             font-awesome
-            zathura
-            caprine-bin
             liberation_ttf
-            geogebra
             neovide
-            obsidian
-            pear-desktop
           ]
           ++ (
             if useWayland then
@@ -165,15 +155,23 @@ in
           [
             qFlipper
             todoist-electron
-            fractal
             libreoffice
             pinentry-gtk2
-            citrix_workspace
             chromium
             pavucontrol
             nemo
             calibre
             zoom
+            obsidian
+            pulseaudioFull
+            slack
+            webex
+            openconnect
+            discord
+            zathura
+            caprine-bin
+            geogebra
+            pear-desktop
           ]
         else if graphical then
           [
