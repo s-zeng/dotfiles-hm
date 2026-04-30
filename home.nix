@@ -86,7 +86,6 @@ in
         killall
         graphviz
         nix-search
-        zellij
         (python3.withPackages (
           ps: with ps; [
             requests
@@ -193,8 +192,6 @@ in
   xdg.configFile."eza/theme.yml".source = ./eza/warm-burnout-dark.yml;
   xdg.configFile."helix/runtime/themes/warm-burnout.toml".source = ./helix/themes/warm-burnout.toml;
   xdg.configFile."zed/themes/warm-burnout.json".source = ./zed/themes/warm-burnout.json;
-  xdg.configFile."zellij/themes/warm-burnout-dark.kdl".source = ./zellij/themes/warm-burnout-dark.kdl;
-  xdg.configFile."zellij/themes/warm-burnout-light.kdl".source = ./zellij/themes/warm-burnout-light.kdl;
 
   xdg.configFile.agent-os = {
     source = ./agent-os;
@@ -228,6 +225,16 @@ in
     eza = {
       enable = true;
       enableFishIntegration = true;
+    };
+
+    zellij = {
+      enable = true;
+      enableFishIntegration = true;
+      extraConfig = builtins.readFile ./zellij/config.kdl;
+      themes = {
+        warm-burnout-dark = ./zellij/themes/warm-burnout-dark.kdl;
+        warm-burnout-light = ./zellij/themes/warm-burnout-light.kdl;
+      };
     };
 
     direnv = {
