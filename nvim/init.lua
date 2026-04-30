@@ -11,7 +11,7 @@ require('plugin/dap')
 require('plugin/gitsigns')
 
 require("leap").add_default_mappings()
-vim.cmd.colorscheme "gruvbox"
+vim.cmd.colorscheme "warm-burnout-dark"
 
 require('config/maps')
 

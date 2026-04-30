@@ -62,6 +62,7 @@ in
     homeDirectory = homeDirectory;
     sessionVariables = {
       COLORTERM = "truecolor";
+      EZA_CONFIG_DIR = "${homeDirectory}/.config/eza";
       TERM = "xterm-256color";
     };
     packages =
@@ -187,6 +188,14 @@ in
     recursive = true;
   };
 
+  xdg.configFile."ghostty/themes/warm-burnout-dark".source = ./ghostty/themes/warm-burnout-dark;
+  xdg.configFile."ghostty/themes/warm-burnout-light".source = ./ghostty/themes/warm-burnout-light;
+  xdg.configFile."eza/theme.yml".source = ./eza/warm-burnout-dark.yml;
+  xdg.configFile."helix/runtime/themes/warm-burnout.toml".source = ./helix/themes/warm-burnout.toml;
+  xdg.configFile."zed/themes/warm-burnout.json".source = ./zed/themes/warm-burnout.json;
+  xdg.configFile."zellij/themes/warm-burnout-dark.kdl".source = ./zellij/themes/warm-burnout-dark.kdl;
+  xdg.configFile."zellij/themes/warm-burnout-light.kdl".source = ./zellij/themes/warm-burnout-light.kdl;
+
   xdg.configFile.agent-os = {
     source = ./agent-os;
     recursive = true;
@@ -235,10 +244,15 @@ in
         format = "$username$hostname$localip$shlvl$singularity$kubernetes$directory$vcsh$fossil_branch$fossil_metrics\${custom.git_branch}\${custom.git_commit}$git_state\${custom.git_metrics}\${custom.git_status}$hg_branch$pijul_channel$docker_context$package$c$cmake$cobol$daml$dart$deno$dotnet$elixir$elm$erlang$fennel$golang$guix_shell$haskell$haxe$hg_branch$java$julia$kotlin$lua$nodejs$ocaml$opa$perl$php$pulumi$purescript$python$raku$ruby$rust$scala$solidity$swift$terraform$vlang$vagrant$zig$buf$nix_shell$conda$meson$spack$memory_usage$aws$gcloud$openstack$azure$env_var$crystal\${custom.jj}$sudo$cmd_duration$line_break$jobs$battery$time$status$os$container$shell$character";
 
         character = {
-          success_symbol = "[>>=](bold green)";
-          error_symbol = "[_|_](bold red)";
-          vicmd_symbol = "[<*>](bold green)";
+          success_symbol = "[>>=](yellow)";
+          error_symbol = "[_|_](red)";
+          vicmd_symbol = "[<*>](green)";
         };
+        directory.style = "bold bright-yellow";
+        git_branch.style = "green";
+        git_state.style = "bright-black";
+        cmd_duration.style = "bright-black";
+        python.style = "bright-black";
         python.detect_extensions = [ ];
 
         # replace builtin git modules with ones that detect jj
@@ -258,7 +272,7 @@ in
           git_status = {
             detect_folders = ["!.jj"];
             command = "starship module git_status";
-            style = "";
+            style = "blue";
             description = "Only show git_status if we're not in a jj repo";
           };
           git_commit = {
@@ -365,9 +379,6 @@ in
         gitsigns-nvim
         neogit
 
-        # appearance
-        gruvbox-nvim
-
         # ide features
         friendly-snippets
         lsp-status-nvim
@@ -429,7 +440,7 @@ in
         ];
       };
       settings = {
-        theme = "gruvbox";
+        theme = "warm-burnout";
         editor = {
           line-number = "relative";
           true-color = true;
@@ -457,7 +468,35 @@ in
             return {
               font = wezterm.font("JetBrains Mono"),
               font_size = 13.0,
-              color_scheme = "GruvboxDark",
+              colors = {
+                foreground = "#bfbdb6",
+                background = "#1a1510",
+                cursor_bg = "#f5c56e",
+                cursor_fg = "#1a1510",
+                cursor_border = "#f5c56e",
+                selection_fg = "#bfbdb6",
+                selection_bg = "#33393a",
+                ansi = {
+                  "#23211b",
+                  "#f06b73",
+                  "#70bf56",
+                  "#fdb04c",
+                  "#4fbfff",
+                  "#d0a1ff",
+                  "#93e2c8",
+                  "#c7c7c7",
+                },
+                brights = {
+                  "#686868",
+                  "#f07178",
+                  "#aad94c",
+                  "#ffb454",
+                  "#59c2ff",
+                  "#d2a6ff",
+                  "#95e6cb",
+                  "#ffffff",
+                },
+              },
               hide_tab_bar_if_only_one_tab = true,
               -- default_prog = { "zsh", "--login", "-c", "tmux attach -t dev || tmux new -s dev" },
               keys = {
@@ -472,7 +511,7 @@ in
             enable = true;
             package = pkgs.ghostty-bin;
             enableFishIntegration = true;
-            settings.theme = "Gruvbox Dark";
+            settings.theme = "dark:warm-burnout-dark,light:warm-burnout-light";
         };
       }
     else
