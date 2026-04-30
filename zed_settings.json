@@ -19,8 +19,8 @@
     "git_status": false
   },
   "title_bar": {
-    "show_menus": false,
-    "show_branch_icon": true
+    "show_branch_status_icon": true,
+    "show_menus": false
   },
   "colorize_brackets": true,
   "show_whitespaces": "selection",
@@ -82,7 +82,7 @@
     "tool_permissions": {
       "default": "allow"
     },
-    "play_sound_when_agent_done": true,
+    "play_sound_when_agent_done": "always",
     "dock": "right",
     "default_model": {
       "provider": "lmstudio",
