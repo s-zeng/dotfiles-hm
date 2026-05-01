@@ -190,7 +190,8 @@ in
   xdg.configFile."ghostty/themes/warm-burnout-dark".source = ./ghostty/themes/warm-burnout-dark;
   xdg.configFile."ghostty/themes/warm-burnout-light".source = ./ghostty/themes/warm-burnout-light;
   xdg.configFile."eza/theme.yml".source = ./eza/warm-burnout-dark.yml;
-  xdg.configFile."helix/runtime/themes/warm-burnout.toml".source = ./helix/themes/warm-burnout.toml;
+  xdg.configFile."helix/runtime/themes/warm-burnout-dark.toml".source = ./helix/themes/warm-burnout-dark.toml;
+  xdg.configFile."helix/runtime/themes/warm-burnout-light.toml".source = ./helix/themes/warm-burnout-light.toml;
   xdg.configFile."zed/themes/warm-burnout.json".source = ./zed/themes/warm-burnout.json;
 
   xdg.configFile.agent-os = {
@@ -447,7 +448,7 @@ in
         ];
       };
       settings = {
-        theme = "warm-burnout";
+        theme = "warm-burnout-dark";
         editor = {
           line-number = "relative";
           true-color = true;
