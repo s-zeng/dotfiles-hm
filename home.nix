@@ -229,7 +229,7 @@ in
 
     zellij = {
       enable = true;
-      enableFishIntegration = true;
+      enableFishIntegration = false;
       extraConfig = builtins.readFile ./zellij/config.kdl;
       themes = {
         warm-burnout-dark = ./zellij/themes/warm-burnout-dark.kdl;

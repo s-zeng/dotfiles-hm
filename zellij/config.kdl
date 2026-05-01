@@ -6,7 +6,7 @@ theme "warm-burnout-dark"
 
 keybinds clear-defaults=true {
     locked {
-        bind "Ctrl g" { SwitchToMode "normal"; }
+        bind "Alt g" { SwitchToMode "normal"; }
     }
     pane {
         bind "left" { MoveFocus "left"; }
