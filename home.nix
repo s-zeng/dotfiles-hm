@@ -105,7 +105,7 @@ in
         ruff
         rust-analyzer
         (writeScriptBin "vimtabdiff.py" (builtins.readFile ./bin/vimtabdiff.py))
-        copyparty
+        # copyparty
         jjui
         lazyjj
         weechat
