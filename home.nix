@@ -340,8 +340,8 @@ in
           diff-invocation-mode = "file-by-file";
         };
         revset-aliases."immutable_heads()" = "builtin_immutable_heads() | (trunk().. & ~mine()) | bookmarks(glob:rel_*) | bookmarks(glob:prod_*)";
+        revsets."bookmark-advance-to" = "@-";
         aliases = {
-          tug = ["bookmark" "move" "--from" "heads(::@- & bookmarks())" "--to" "@-"];
           l = ["log"];
         };
         merge-tools.diffconflicts = {

@@ -1,4 +1,13 @@
 {
+  "proxy": "",
+  "agent_servers": {
+    "codex-acp": {
+      "type": "registry"
+    },
+    "claude-acp": {
+      "type": "registry"
+    }
+  },
   "outline_panel": {
     "dock": "left"
   },
