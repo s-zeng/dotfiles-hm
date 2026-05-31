@@ -112,6 +112,8 @@ in
         jq
         llama-cpp
         opencode
+        rns
+        python313Packages.nomadnet
       ]
       ++ (
         if graphical then
