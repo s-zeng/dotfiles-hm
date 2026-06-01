@@ -65,6 +65,13 @@ in
       EZA_CONFIG_DIR = "${homeDirectory}/.config/eza";
       TERM = "xterm-256color";
     };
+
+    # rnsh reticulum ids
+    sessionVariables = {
+      HAL = "8eeb2f0512b1d221bc6e7698f937b977";
+      HFCS = "241cbb84406357c9f33ce285839c5d2a";
+    };
+
     packages =
       with pkgs;
       [
