@@ -68,7 +68,7 @@
 
       lib = home-manager.lib;
 
-      homeDirPrefix = if pkgs.stdenv.hostPlatform.isDarwin then "/Users" else "/home";
+      homeDirPrefix = if pkgs.stdenv.hostPlatform.isDarwin then "Users" else "home";
       homeDirectory = "/${homeDirPrefix}/${username}";
 
       home = (import ./home.nix {

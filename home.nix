@@ -14,6 +14,17 @@
 }:
 
 let
+  warmBurnoutState = "${homeDirectory}/.local/state/warm-burnout/variant";
+  zedSettings = variant: builtins.replaceStrings
+    [ ''"theme": {
+    "mode": "system",'' ]
+    [ ''"theme": {
+    "mode": "${variant}",'' ]
+    (builtins.readFile ./zed_settings.json);
+  zellijConfig = variant: builtins.replaceStrings
+    [ ''theme "warm-burnout-dark"'' ]
+    [ ''theme "warm-burnout-${variant}"'' ]
+    (builtins.readFile ./zellij/config.kdl);
   nurNopkgs = import nur {
     pkgs = pkgs;
     nurpkgs = pkgs;
@@ -23,8 +34,115 @@ let
   thinkpad = config.thinkpad;
   graphical = config.graphical;
   hostSystem = pkgs.stdenv.hostPlatform.system;
+  pkillCmd = if pkgs.stdenv.hostPlatform.isDarwin then "/usr/bin/pkill" else "${pkgs.procps}/bin/pkill";
+  psCmd = if pkgs.stdenv.hostPlatform.isDarwin then "/bin/ps" else "${pkgs.procps}/bin/ps";
   clipboardCmd =
     if builtins.match ".*darwin$" hostSystem != null then "pbcopy" else "xclip -selection clipboard";
+  helixSettings = variant: {
+    theme = "warm-burnout-${variant}";
+    editor = {
+      line-number = "relative";
+      true-color = true;
+      lsp.display-messages = true;
+    };
+    keys.normal.space = {
+      B = [
+        '':sh jj --ignore-working-copy file annotate %{buffer_name} -T "if(self.line_number() == %{cursor_line}, concat(self.commit().change_id().shortest(), \" \", self.commit().commit_id().shortest(), \" \", self.commit().author().timestamp().format(\"%%Y-%%m-%%d\"), \" \", self.commit().author(), \"\\n\", self.commit().description()))"''
+      ];
+      q = '':sh echo "$(jj --ignore-working-copy git remote list | awk '{print $2}')/commit/$(jj --ignore-working-copy file annotate %{buffer_name} -T 'if(self.line_number() == %{cursor_line}, self.commit().commit_id())')" | ${clipboardCmd}'';
+      Q = '':sh echo "$(jj --ignore-working-copy git remote list | awk '{print $2}')/blob/$(jj --ignore-working-copy file annotate -r @ %{buffer_name} -T 'if(self.line_number() == %{cursor_line}, concat(self.commit().commit_id(), "/%{buffer_name}#L", self.original_line_number()))')" | ${clipboardCmd}'';
+      l = '':sh echo "$(jj --ignore-working-copy git remote list | awk '{print $2}')/blob/master/%{buffer_name}" | ${clipboardCmd}'';
+      L = '':sh echo "$(jj --ignore-working-copy git remote list | awk '{print $2}')/blob/$(jj --ignore-working-copy log -r 'latest(heads(::@ & ::trunk()))' -T 'self.commit_id()' --no-graph)/%{buffer_name}#L%{cursor_line}" | ${clipboardCmd}'';
+    };
+  };
+  tomlFormat = pkgs.formats.toml { };
+  warmBurnout = pkgs.writeShellScriptBin "warm-burnout" ''
+    set -eu
+
+    usage() {
+      echo "usage: warm-burnout {light|dark|toggle}" >&2
+      exit 2
+    }
+
+    config_home="''${XDG_CONFIG_HOME:-$HOME/.config}"
+    state_home="''${XDG_STATE_HOME:-$HOME/.local/state}"
+    state_dir="$state_home/warm-burnout"
+    state_file="$state_dir/variant"
+    variant="''${1:-}"
+
+    case "$variant" in
+      light|dark) ;;
+      toggle)
+        if [ "$(cat "$state_file" 2>/dev/null || true)" = dark ]; then
+          variant=light
+        else
+          variant=dark
+        fi
+        ;;
+      *) usage ;;
+    esac
+
+    mkdir -p "$state_dir" "$config_home/ghostty" "$config_home/eza" \
+      "$config_home/helix" "$config_home/zed" "$config_home/zellij"
+
+    state_tmp="$state_file.$$"
+    ghostty_file="$config_home/ghostty/warm-burnout"
+    ghostty_tmp="$ghostty_file.$$"
+    trap 'rm -f "$state_tmp" "$ghostty_tmp"' EXIT
+
+    printf '%s\n' "$variant" > "$state_tmp"
+    mv -f "$state_tmp" "$state_file"
+    printf 'theme = warm-burnout-%s\n' "$variant" > "$ghostty_tmp"
+    mv -f "$ghostty_tmp" "$ghostty_file"
+
+    ln -sfn "$config_home/eza/warm-burnout-$variant.yml" "$config_home/eza/theme.yml"
+    ln -sfn "$config_home/helix/config-$variant.toml" "$config_home/helix/config.toml"
+    ln -sfn "$config_home/zed/settings-$variant.json" "$config_home/zed/settings.json"
+    ln -sfn "$config_home/zellij/config-$variant.kdl" "$config_home/zellij/config.kdl"
+
+    if [ "$variant" = dark ]; then
+      foreground="#bfbdb6"
+      background="#1a1510"
+      cursor="#f5c56e"
+      palette="0;#23211b;1;#f06b73;2;#70bf56;3;#fdb04c;4;#4fbfff;5;#d0a1ff;6;#93e2c8;7;#c7c7c7;8;#686868;9;#f07178;10;#aad94c;11;#ffb454;12;#59c2ff;13;#d2a6ff;14;#95e6cb;15;#ffffff"
+    else
+      foreground="#3a3630"
+      background="#f5ede0"
+      cursor="#8a6600"
+      palette="0;#3a3630;1;#b82820;2;#2d6a14;3;#8a6000;4;#2060a0;5;#8a3090;6;#146858;7;#c0b8aa;8;#686868;9;#c83028;10;#3a7a20;11;#9a7008;12;#2870b0;13;#9a38a0;14;#208870;15;#faf6f0"
+    fi
+
+    emit_colors() {
+      printf '\033]10;%s\033\\' "$foreground"
+      printf '\033]11;%s\033\\' "$background"
+      printf '\033]12;%s\033\\' "$cursor"
+      printf '\033]4;%s\033\\' "$palette"
+    }
+
+    { emit_colors > /dev/tty; } 2>/dev/null || true
+    while IFS= read -r terminal; do
+      case "$terminal" in
+        /dev/*) terminal_path="$terminal" ;;
+        *) terminal_path="/dev/$terminal" ;;
+      esac
+      { emit_colors > "$terminal_path"; } 2>/dev/null || true
+    done < <(
+      ${psCmd} eww -axo tty=,command= 2>/dev/null \
+        | ${pkgs.gawk}/bin/awk '$1 != "?" && $1 != "??" && /(^| )TERM_PROGRAM=ghostty( |$)/ && !seen[$1]++ { print $1 }'
+    )
+
+    if [ -z "''${WARM_BURNOUT_NO_RELOAD:-}" ]; then
+      ${pkillCmd} -USR2 -x ghostty 2>/dev/null || ${pkillCmd} -USR2 -x Ghostty 2>/dev/null || true
+
+      ${pkillCmd} -USR1 -u "$USER" -x '(hx|\.hx-wrapped)' 2>/dev/null || true
+      ${pkillCmd} -USR1 -x nvim 2>/dev/null || true
+      zellij list-sessions --short 2>/dev/null | while IFS= read -r session; do
+        zellij --session "$session" options --theme "warm-burnout-$variant" >/dev/null 2>&1 || true
+      done
+    fi
+
+    echo "Warm Burnout: $variant"
+  '';
   editorPackages = with pkgs; [
     # lsp
     clojure-lsp
@@ -112,6 +230,7 @@ in
         ruff
         rust-analyzer
         (writeScriptBin "vimtabdiff.py" (builtins.readFile ./bin/vimtabdiff.py))
+        warmBurnout
         # copyparty
         jjui
         lazyjj
@@ -198,15 +317,36 @@ in
 
   xdg.configFile."ghostty/themes/warm-burnout-dark".source = ./ghostty/themes/warm-burnout-dark;
   xdg.configFile."ghostty/themes/warm-burnout-light".source = ./ghostty/themes/warm-burnout-light;
-  xdg.configFile."eza/theme.yml".source = ./eza/warm-burnout-dark.yml;
+  xdg.configFile."eza/warm-burnout-dark.yml".source = ./eza/warm-burnout-dark.yml;
+  xdg.configFile."eza/warm-burnout-light.yml".source = ./eza/warm-burnout-light.yml;
+  xdg.configFile."helix/config-dark.toml".source = tomlFormat.generate "helix-config-dark" (helixSettings "dark");
+  xdg.configFile."helix/config-light.toml".source = tomlFormat.generate "helix-config-light" (helixSettings "light");
   xdg.configFile."helix/runtime/themes/warm-burnout-dark.toml".source = ./helix/themes/warm-burnout-dark.toml;
   xdg.configFile."helix/runtime/themes/warm-burnout-light.toml".source = ./helix/themes/warm-burnout-light.toml;
   xdg.configFile."zed/themes/warm-burnout.json".source = ./zed/themes/warm-burnout.json;
+  xdg.configFile."zed/settings-dark.json".text = zedSettings "dark";
+  xdg.configFile."zed/settings-light.json".text = zedSettings "light";
+  xdg.configFile."wezterm/colors/warm-burnout-dark.toml".source = ./wezterm/warm-burnout-dark.toml;
+  xdg.configFile."wezterm/colors/warm-burnout-light.toml".source = ./wezterm/warm-burnout-light.toml;
+  xdg.configFile."zellij/config-dark.kdl".text = zellijConfig "dark";
+  xdg.configFile."zellij/config-light.kdl".text = zellijConfig "light";
 
   xdg.configFile.agent-os = {
     source = ./agent-os;
     recursive = true;
   };
+
+  home.activation.warmBurnout = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
+    variant=light
+    if [ -f ${pkgs.lib.escapeShellArg warmBurnoutState} ]; then
+      variant=$(cat ${pkgs.lib.escapeShellArg warmBurnoutState})
+    fi
+    case "$variant" in
+      light|dark) ;;
+      *) variant=light ;;
+    esac
+    $DRY_RUN_CMD env WARM_BURNOUT_NO_RELOAD=1 ${warmBurnout}/bin/warm-burnout "$variant"
+  '';
 
   programs = {
     # Let Home Manager install and manage itself.
@@ -240,7 +380,6 @@ in
     zellij = {
       enable = true;
       enableFishIntegration = false;
-      extraConfig = builtins.readFile ./zellij/config.kdl;
       themes = {
         warm-burnout-dark = ./zellij/themes/warm-burnout-dark.kdl;
         warm-burnout-light = ./zellij/themes/warm-burnout-light.kdl;
@@ -456,23 +595,7 @@ in
           }
         ];
       };
-      settings = {
-        theme = "warm-burnout-dark";
-        editor = {
-          line-number = "relative";
-          true-color = true;
-          lsp.display-messages = true;
-        };
-        keys.normal.space = {
-          B = [
-            '':sh jj --ignore-working-copy file annotate %{buffer_name} -T "if(self.line_number() == %{cursor_line}, concat(self.commit().change_id().shortest(), \" \", self.commit().commit_id().shortest(), \" \", self.commit().author().timestamp().format(\"%%Y-%%m-%%d\"), \" \", self.commit().author(), \"\\n\", self.commit().description()))"''
-          ];
-          q = '':sh echo "$(jj --ignore-working-copy git remote list | awk '{print $2}')/commit/$(jj --ignore-working-copy file annotate %{buffer_name} -T 'if(self.line_number() == %{cursor_line}, self.commit().commit_id())')" | ${clipboardCmd}'';
-          Q = '':sh echo "$(jj --ignore-working-copy git remote list | awk '{print $2}')/blob/$(jj --ignore-working-copy file annotate -r @ %{buffer_name} -T 'if(self.line_number() == %{cursor_line}, concat(self.commit().commit_id(), "/%{buffer_name}#L", self.original_line_number()))')" | ${clipboardCmd}'';
-          l = '':sh echo "$(jj --ignore-working-copy git remote list | awk '{print $2}')/blob/master/%{buffer_name}" | ${clipboardCmd}'';
-          L = '':sh echo "$(jj --ignore-working-copy git remote list | awk '{print $2}')/blob/$(jj --ignore-working-copy log -r 'latest(heads(::@ & ::trunk()))' -T 'self.commit_id()' --no-graph)/%{buffer_name}#L%{cursor_line}" | ${clipboardCmd}'';
-        };
-      };
+      settings = { };
     };
   }
   // (
@@ -482,38 +605,20 @@ in
         wezterm = {
           enable = true;
           extraConfig = ''
+            local variant_file = "${warmBurnoutState}"
+            wezterm.add_to_config_reload_watch_list(variant_file)
+
+            local variant = "light"
+            local file = io.open(variant_file, "r")
+            if file then
+              variant = file:read("*l") or variant
+              file:close()
+            end
+
             return {
               font = wezterm.font("JetBrains Mono"),
               font_size = 13.0,
-              colors = {
-                foreground = "#bfbdb6",
-                background = "#1a1510",
-                cursor_bg = "#f5c56e",
-                cursor_fg = "#1a1510",
-                cursor_border = "#f5c56e",
-                selection_fg = "#bfbdb6",
-                selection_bg = "#33393a",
-                ansi = {
-                  "#23211b",
-                  "#f06b73",
-                  "#70bf56",
-                  "#fdb04c",
-                  "#4fbfff",
-                  "#d0a1ff",
-                  "#93e2c8",
-                  "#c7c7c7",
-                },
-                brights = {
-                  "#686868",
-                  "#f07178",
-                  "#aad94c",
-                  "#ffb454",
-                  "#59c2ff",
-                  "#d2a6ff",
-                  "#95e6cb",
-                  "#ffffff",
-                },
-              },
+              color_scheme = variant == "dark" and "Warm Burnout Dark" or "Warm Burnout Light",
               hide_tab_bar_if_only_one_tab = true,
               -- default_prog = { "zsh", "--login", "-c", "tmux attach -t dev || tmux new -s dev" },
               keys = {
@@ -528,7 +633,7 @@ in
             enable = true;
             package = pkgs.ghostty-bin;
             enableFishIntegration = true;
-            settings.theme = "dark:warm-burnout-dark,light:warm-burnout-light";
+            settings."config-file" = "?${homeDirectory}/.config/ghostty/warm-burnout";
         };
       }
     else

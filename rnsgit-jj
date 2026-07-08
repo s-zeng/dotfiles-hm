@@ -1,0 +1,7 @@
+jj config set --repo signing.backend ssh
+jj config set --repo signing.backends.ssh.program rngcs
+jj config set --repo signing.backends.ssh.allowed-signers none
+jj config set --repo signing.key "~/.rngit/client_identity"
+jj config set --repo signing.behavior own
+jj config set --repo user.email "6bca375a0246ffe2eb6ae6258e7a6335"
+

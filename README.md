@@ -26,3 +26,16 @@ repo](https://github.com/s-zeng/dotfiles)
    }
    ```
 4. Run `home-manager switch --impure`
+
+## Color scheme
+
+Warm Burnout defaults to the light variant. Switch every managed application at runtime with:
+
+```sh
+warm-burnout dark
+warm-burnout light
+warm-burnout toggle
+```
+
+The command does not rebuild or activate Home Manager. Ghostty, WezTerm, Helix, Neovim, Zed,
+and running Zellij sessions reload automatically; new processes inherit the selected variant.
