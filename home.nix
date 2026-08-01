@@ -269,7 +269,7 @@ in
           [
             eog
             usbutils
-            light
+            brightnessctl
             xclip
             xmlstarlet
             lxappearance
@@ -289,7 +289,7 @@ in
             pavucontrol
             nemo
             calibre
-            zoom
+            # zoom
             obsidian
             pulseaudioFull
             slack
@@ -631,10 +631,100 @@ in
 
         ghostty = {
             enable = true;
-            package = pkgs.ghostty-bin;
+            package = if pkgs.stdenv.hostPlatform.isDarwin then pkgs.ghostty-bin else pkgs.ghostty;
             enableFishIntegration = true;
             settings."config-file" = "?${homeDirectory}/.config/ghostty/warm-burnout";
         };
+      }
+    else
+      { }
+  )
+  // (
+    if graphical && thinkpad then
+      {
+          firefox = {
+            enable = true;
+            package = pkgs.wrapFirefox pkgs.firefox-unwrapped {
+              extraPolicies = {
+                ExtensionSettings = { };
+              };
+            };
+            profiles.default = {
+              id = 0;
+              name = "Default";
+              isDefault = true;
+              extensions.packages = with nurNopkgs.repos.rycee.firefox-addons; [
+                ublock-origin
+                vimium
+                gopass-bridge
+                addy_io
+                darkreader
+              ];
+              settings = {
+                "browser.theme.content-theme" = 0; # dark theme
+                "browser.theme.toolbar-theme" = 0; # dark theme
+                "findbar.modalHighlight" = true; # dims screen and animates during ctrl-f
+                "findbar.highlightAll" = true; # highlights all ctrl-f results
+                "browser.newtabpage.activity-stream.enabled" = false; # better new tab
+                "extensions.pocket.enabled" = false; # disable pocket
+                "browser.compactmode.show" = true;
+                "identity.fxaccounts.enabled" = false;
+              };
+            };
+          };
+          i3status = {
+            enable = true;
+            enableDefault = false;
+            general = {
+              interval = 1;
+              colors = true;
+              color_good = "#b8bb26";
+              color_bad = "#fb4934";
+              color_degraded = "#fabd2f";
+            };
+            modules = {
+              "volume master" = {
+                position = 1;
+                settings = {
+                  format = "%volume  ";
+                  format_muted = " ";
+                  device = "default";
+                  mixer = "Master";
+                  mixer_idx = 0;
+                };
+              };
+              "wireless wlp2s0" = {
+                position = 2;
+                settings = {
+                  format_up = "%quality  %essid %ip";
+                  format_down = "";
+                };
+              };
+              "battery 0" = {
+                position = 3;
+                settings = {
+                  format = "%status %percentage %consumption %remaining";
+                  format_down = "";
+                  last_full_capacity = true;
+                  integer_battery_capacity = true;
+                  low_threshold = 11;
+                  threshold_type = "percentage";
+                  hide_seconds = true;
+                  status_chr = " ";
+                  status_bat = " ";
+                  status_unk = " ";
+                  status_full = " ";
+                };
+              };
+              "tztime local" = {
+                position = 4;
+                settings = {
+                  format = " %I:%M %p";
+                };
+              };
+            };
+          };
+          mpv.enable = true; # media player
       }
     else
       { }
@@ -644,89 +734,6 @@ in
   if graphical && thinkpad then
     {
       services.mako.enable = useWayland; # wayland notification daemon
-      mpv.enable = true; # media player
-      firefox = {
-        enable = true;
-        package = pkgs.wrapFirefox pkgs.firefox-unwrapped {
-          extraPolicies = {
-            ExtensionSettings = { };
-          };
-        };
-        profiles.default = {
-          id = 0;
-          name = "Default";
-          isDefault = true;
-          extensions = with nurNopkgs.repos.rycee.firefox-addons; [
-            ublock-origin
-            vimium
-            gopass-bridge
-            addy_io
-            darkreader
-          ];
-          settings = {
-            "browser.theme.content-theme" = 0; # dark theme
-            "browser.theme.toolbar-theme" = 0; # dark theme
-            "findbar.modalHighlight" = true; # dims screen and animates during ctrl-f
-            "findbar.highlightAll" = true; # highlights all ctrl-f results
-            "browser.newtabpage.activity-stream.enabled" = false; # better new tab
-            "extensions.pocket.enabled" = false; # disable pocket
-            "browser.compactmode.show" = true;
-            "identity.fxaccounts.enabled" = false;
-          };
-        };
-      };
-      i3status = {
-        enable = true;
-        enableDefault = false;
-        general = {
-          interval = 1;
-          colors = true;
-          color_good = "#b8bb26";
-          color_bad = "#fb4934";
-          color_degraded = "#fabd2f";
-        };
-        modules = {
-          "volume master" = {
-            position = 1;
-            settings = {
-              format = "%volume  ";
-              format_muted = " ";
-              device = "default";
-              mixer = "Master";
-              mixer_idx = 0;
-            };
-          };
-          "wireless wlp2s0" = {
-            position = 2;
-            settings = {
-              format_up = "%quality  %essid %ip";
-              format_down = "";
-            };
-          };
-          "battery 0" = {
-            position = 3;
-            settings = {
-              format = "%status %percentage %consumption %remaining";
-              format_down = "";
-              last_full_capacity = true;
-              integer_battery_capacity = true;
-              low_threshold = 11;
-              threshold_type = "percentage";
-              hide_seconds = true;
-              status_chr = " ";
-              status_bat = " ";
-              status_unk = " ";
-              status_full = " ";
-            };
-          };
-          "tztime local" = {
-            position = 4;
-            settings = {
-              format = " %I:%M %p";
-            };
-          };
-        };
-      };
     }
   else
     { }
@@ -754,11 +761,11 @@ in
             else
               { };
           terminal = "ghostty";
-          output = {
-            "*" = {
-              bg = "~/.config/nixpkgs/backgrounds/cozywindow.jpg fill";
-            };
-          };
+          # output = {
+          #   "*" = {
+          #     bg = "~/.config/nixpkgs/backgrounds/cozywindow.jpg fill";
+          #   };
+          # };
         };
       };
     }
@@ -796,7 +803,7 @@ in
     {
       services.gpg-agent = {
         enable = true;
-        pinentryFlavor = if graphical then "gtk2" else "tty";
+        pinentry.package = if graphical then pkgs.pinentry-gtk2 else pkgs.pinentry-curses;
         enableFishIntegration = true;
       };
     }
