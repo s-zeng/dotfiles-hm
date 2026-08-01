@@ -300,6 +300,7 @@ in
             caprine-bin
             geogebra
             pear-desktop
+            remmina
           ]
         else if graphical then
           [
