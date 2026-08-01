@@ -23,12 +23,16 @@ in
   networking.networkmanager.enable = true;
 
   # Set your time zone.
-  time.timeZone = "America/Toronto";
+  # time.timeZone = "America/Toronto";
+  services.automatic-timezoned.enable = true;
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_CA.UTF-8";
 
   services.dbus.enable = true;
+  services.devmon.enable = true;
+  services.gvfs.enable = true;
+  services.udisks2.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.kronicmage = {
@@ -41,12 +45,25 @@ in
       "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCpeorNX0ypRXlfZR3k36wjB3LfVUSqBXXyI7nGkv8K8ow5lLIfruzT67YYBE4nQqpKpcQ/cPZM6iXm8bU1UJnQsodcGIeyiime56KlRypgiYg7P+3jyiaDfkWFeY7ddWRGwNkLcwouYVowMC387D9tfMczJPPM6N1ywGJ5aR/G3tF1RoeLxe0UC8FULEJrUFESeXXkCKm45CZqarfsPQHd7cq9XLNlyZeRqXFMx1KxnRnJpW/46FActJPDANZPvppLfvlk209HNIG0iuJzyhbaxDW7/mhHPvNw4VQexFfdkKn6uUWhoxPgUwL709+qwYDXlKJgzcdFJoNeTOdEL6xj kronicmage@SimonThinkpad"
     ];
   };
+  programs.fish.enable = true;
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
   nix = {
-    package = pkgs.nixFlakes;
+    package = pkgs.nixVersions.stable;
+
+    settings.substituters = [
+      "https://cache.nixos.org"
+      "https://cache.dhall-lang.org"
+      "https://dhall.cachix.org"
+    ];
+
+    settings.trusted-public-keys = [
+      "cache.dhall-lang.org:I9/H18WHd60olG5GsIjolp7CtepSgJmM2CsO813VTmM="
+      "dhall.cachix.org-1:8laGciue2JBwD49ICFtg+cIF8ddDaW7OFBjDb/dHEAo="
+    ];
+
     extraOptions = ''
       experimental-features = nix-command flakes
     '';
@@ -56,6 +73,7 @@ in
   # $ nix search wget
 
   environment.systemPackages = with pkgs; [
+    webex
     # wget
     # (python3.withPackages (ps: with ps; [
     #   requests
@@ -65,10 +83,10 @@ in
   ];
 
   # List services that you want to enable:
-  services.tlp =
-    if config.thinkpad then {
-      enable = true;
-    } else { };
+  # services.tlp =
+  #   if config.thinkpad then {
+  #     enable = true;
+  #   } else { };
 
   # Enable the OpenSSH daemon.
   services.openssh =
@@ -79,6 +97,11 @@ in
     } else { };
   services.pcscd.enable = true;
 
+  services.printing = {
+    enable = true;
+    drivers = [ pkgs.samsung-unified-linux-driver ];
+  };
+
   programs.dconf.enable = true;
   programs.steam =
     if config.graphical then {
@@ -87,20 +110,22 @@ in
       dedicatedServer.openFirewall = true;
     } else { };
   services.xserver = {
-    layout = "us";
-    xkbVariant = "";
+    xkb = {
+        layout = "us";
+        variant = "";
+    };
     enable = true;
-    libinput.enable = true;
-    displayManager.lightdm.enable = true;
-    windowManager.i3.enable = true;
-    windowManager.i3.package = pkgs.i3-gaps;
-    displayManager.defaultSession = "none+i3";
   } // (if config.thinkpad then { } else { videoDrivers = [ "nvidia" ]; });
-  hardware.opengl.enable = true;
-  hardware.video.hidpi.enable = !config.thinkpad;
+  services.displayManager = {
+    sddm.wayland.enable = true;
+    defaultSession = "plasma";
+  };
+  services.desktopManager.plasma6.enable = true;
+  services.libinput.enable = true;
+  hardware.graphics.enable = true;
   hardware.bluetooth.enable = true;
-  hardware.pulseaudio.enable = true;
-  hardware.pulseaudio.support32Bit = true;
+  # services.pulseaudio.enable = true;
+  # services.pulseaudio.support32Bit = true;
   services.blueman.enable = true;
 
   # This value determines the NixOS release from which the default
