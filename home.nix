@@ -240,6 +240,7 @@ in
         opencode
         rns
         python313Packages.nomadnet
+        herdr
       ]
       ++ (
         if graphical then
@@ -360,7 +361,12 @@ in
     tealdeer.enable = true; # tldr
     gpg.enable = true;
     fish.enable = true; # shell replacement
-    bottom.enable = true; # htop replacement
+    # bottom 0.14.8 currently crashes while Nix's Darwin ELF fixup hook runs.
+    # Keep bottom enabled, but source it from the stable pin until upstream is fixed.
+    bottom = {
+      enable = true; # htop replacement
+      package = pkgs-stable.bottom;
+    };
     bat.enable = true;
     difftastic.enable = true;
     ripgrep.enable = true;
