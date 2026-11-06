@@ -219,7 +219,7 @@ in
           ]
         ))
         claude-code
-        gemini-cli
+        antigravity-cli
         codex-cli-nix.packages.${hostSystem}.default
         asciinema
         nodejs_24
